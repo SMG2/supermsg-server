@@ -1,25 +1,44 @@
 package com.hdu.jersey.model;
 
+/**
+ * 
+ * 	用户基础信息类
+ * 
+ * */
+
 public class UserBaseInfo {
 
 	private String id;
-	private String phone;
 	private String school_num;
+	private String nation;
 	private String st_num;
-	private String mail;
 	private String tag;
 	private String pwd;
+	private String sex;
+	private String name;
+	public String getNation() {
+		return nation;
+	}
+	public void setNation(String nation) {
+		this.nation = nation;
+	}
+	public String getSex() {
+		return sex;
+	}
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	public String getId() {
 		return id;
 	}
 	public void setId(String id) {
 		this.id = id;
-	}
-	public String getPhone() {
-		return phone;
-	}
-	public void setPhone(String phone) {
-		this.phone = phone;
 	}
 	public String getSchool_num() {
 		return school_num;
@@ -32,12 +51,6 @@ public class UserBaseInfo {
 	}
 	public void setSt_num(String st_num) {
 		this.st_num = st_num;
-	}
-	public String getMail() {
-		return mail;
-	}
-	public void setMail(String mail) {
-		this.mail = mail;
 	}
 	public String getTag() {
 		return tag;

@@ -15,7 +15,7 @@ public class TestUser {
 		System.out.println(checkStudent.getInfo().toString());
 		
 		/*
-{"role":"学生","major":"软件工程","grade":"2014","sex":"男","class":"14108414","academy":"计算机学院"}
+{"face":"共青团员","role":"学生","major":"软件工程","nation":"汉族","grade":"2014","sex":"男","name":"朱鑫","class":"14108414","academy":"计算机学院"}
 		 */
 		
 	}
