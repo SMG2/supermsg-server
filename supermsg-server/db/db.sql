@@ -26,14 +26,25 @@ CREATE TABLE `user_baseinfo` (
 );
 
 DROP TABLE
+IF EXISTS tag;
+
+CREATE TABLE `tag` (
+	`tagName` VARCHAR (20) NOT NULL,
+	`tagid` VARCHAR (50) NOT NULL,
+	PRIMARY KEY (`tagid`)
+);
+
+DROP TABLE
 IF EXISTS user_tag;
 
 CREATE TABLE `user_tag` (
 	`id` VARCHAR (32) NOT NULL,
-	`tag` VARCHAR (50) NOT NULL,
-	PRIMARY KEY (`id`),
+	`tagid` VARCHAR (50) NOT NULL,
+	PRIMARY KEY (`id`, `tagid`),
 	CONSTRAINT `FK_tag_bi` FOREIGN KEY (`id`) REFERENCES `user_baseinfo` (`id`)
 );
+/*CONSISTENT `FK_tag_tag`*/
+ALTER TABLE `user_tag` ADD  FOREIGN KEY (`tagid`) REFERENCES `tag` (`tagid`);
 
 DROP TABLE
 IF EXISTS user_detailinfo;
