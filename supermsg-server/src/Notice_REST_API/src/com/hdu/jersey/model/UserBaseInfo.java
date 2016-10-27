@@ -12,7 +12,6 @@ public class UserBaseInfo {
 	private String school_num;
 	private String nation;
 	private String st_num;
-	private String tag;
 	private String pwd;
 	private String sex;
 	private String name;
@@ -51,12 +50,6 @@ public class UserBaseInfo {
 	}
 	public void setSt_num(String st_num) {
 		this.st_num = st_num;
-	}
-	public String getTag() {
-		return tag;
-	}
-	public void setTag(String tag) {
-		this.tag = tag;
 	}
 	public String getPwd() {
 		return pwd;

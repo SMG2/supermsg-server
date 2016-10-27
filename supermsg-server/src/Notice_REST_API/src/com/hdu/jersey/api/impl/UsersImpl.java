@@ -1,59 +1,55 @@
 package com.hdu.jersey.api.impl;
 
-
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-
-@Path("/users")
 public class UsersImpl implements com.hdu.jersey.api.Users {
 	
 	@Override
-	@GET
-	@Produces(MediaType.TEXT_PLAIN)
 	public String getUsers() {
 		return "all users";
 	}
 
 	@Override
-	@GET
-	@Produces(MediaType.TEXT_PLAIN)
-	@Path("/{userid}")
-	public String getUser(@PathParam("userid")String userid) {
+	public String getUserByUserid(String userid) {
 		return "one :"+userid;
 	}
 	
 	
 	@Override
-	@DELETE
-	@Path("/{userid}")
-	@Produces(MediaType.TEXT_PLAIN)
-	public String deleteUser(@PathParam("userid")String userid){
+	public String deleteUser(String userid){
 		return "delete user by id."+userid;
 	}
 	
 
 	@Override
-	@POST
-	@Produces(MediaType.TEXT_PLAIN)
 	public String createUser() {
 		return "create user by post";
 	}
 	
 	@Override
-	@PUT
-	@Path("{userid}")
-	public String modify(@PathParam("userid")String userid) {
+	public String modify(String userid) {
 		
 		return "modify user by id."+userid;
 	}
+
+	@Override
+	public String getUserTags(String id) {
+		return "the "+id+"'s tag is tags.";
+	}
+
+	@Override
+	public String createTagforUser(String userid, String tagName) {
+		return "create a tag:"+tagName+"for "+userid;
+	}
+
+	@Override
+	public String deleteUserTag(String userid, String tagName) {
+		return "delete a tag:"+tagName+"for "+userid;
+	}
 	
 
+	@Override
+	public String getUserDetailInfo(String userid) {
+		return "get "+userid+"'s detail infomation.";
+	}
 }
 
 

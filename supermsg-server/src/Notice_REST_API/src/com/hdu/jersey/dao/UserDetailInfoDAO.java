@@ -8,7 +8,7 @@ public interface UserDetailInfoDAO {
 	
 	int add();
 	
-	int delete(int id);
+	int delete(String id);
 	
 	int modify();
 	

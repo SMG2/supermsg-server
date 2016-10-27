@@ -14,7 +14,7 @@ public interface UserBaseInfoDAO {
 
 	int add(UserBaseInfo info);
 	
-	int delete(int id);
+	int delete(String id);
 	
 	/**
 	 * @param reinfo 需要更改的用户信息
