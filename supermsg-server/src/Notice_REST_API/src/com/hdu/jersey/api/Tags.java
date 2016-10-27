@@ -28,7 +28,9 @@ public interface Tags {
 	@GET
 	@Path("/{tagid}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String getAllTagsByUserId(@PathParam("tagid")String tagid);
+	public String getAllTagsByUserId(
+			@PathParam("tagid")			String tagid
+			);
 	
 	/**
 	 * 创建一个tag
@@ -47,7 +49,9 @@ public interface Tags {
 	@DELETE
 	@Path("/{tagid}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String deleteATagByid(@PathParam("tagid")String tagid);
+	public String deleteATagByid(
+			@PathParam("tagid")			String tagid
+			);
 	
 	
 	

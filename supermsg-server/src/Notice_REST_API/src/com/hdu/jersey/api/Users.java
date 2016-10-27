@@ -27,7 +27,9 @@ public interface Users {
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/{userid}")
-	public String getUserByUserid(@PathParam("userid")String id);
+	public String getUserByUserid(
+			@PathParam("userid")			String id
+			);
 	
 	/**
 	 * 	删除用户通过用户id
@@ -37,7 +39,9 @@ public interface Users {
 	@DELETE
 	@Path("/{userid}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String deleteUser(@PathParam("userid")String id);
+	public String deleteUser(
+			@PathParam("userid")			String id
+			);
 	
 	
 	/**
@@ -49,13 +53,15 @@ public interface Users {
 	public String createUser();
 	
 	
-	/**
+	/**XXXXXXXX
 	 * 	修改用户，如果用户不存在就创建改用户
 	 * */
 	@PUT
 	@Path("/{userid}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String modify(@PathParam("userid")String id);
+	public String modify(
+			@PathParam("userid")			String id
+			);
 	
 	
 	/**
@@ -65,7 +71,9 @@ public interface Users {
 	@GET
 	@Path("/{userid}/detail")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String getUserDetailInfo(@PathParam("userid")String userid);
+	public String getUserDetailInfo(
+			@PathParam("userid")			String userid
+			);
 	
 /******************************************************tag管理****************************************************************************/
 
@@ -76,7 +84,9 @@ public interface Users {
 	@GET
 	@Path("/{userid}/tags")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String getUserTags(@PathParam("userid")String userid);
+	public String getUserTags(
+			@PathParam("userid")			String userid
+			);
 	
 	/**
 	 * 	为某个用户创建一个tag
@@ -88,7 +98,10 @@ public interface Users {
 	@POST
 	@Path("/{userid/tags/{tagid}}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String createTagforUser(@PathParam("userid")String userid,@PathParam("tagid")String tagid);
+	public String createTagforUser(
+			@PathParam("userid")			String userid,
+			@PathParam("tagid")				String tagid
+			);
 	
 	/**
 	 * 	删除用户的标签
@@ -100,7 +113,10 @@ public interface Users {
 	@DELETE
 	@Path("/{userid}/tags/{tagid}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String deleteUserTag(@PathParam("userid")String userid,@PathParam("tagid")String tagid);
+	public String deleteUserTag(
+			@PathParam("userid")			String userid,
+			@PathParam("tagid")				String tagid
+			);
 	
 
 }
