@@ -1,19 +1,20 @@
 package com.hdu.jersey.model;
 
 public class UserTag {
-	private String tag;
-	private String id;
-	public String getTag() {
-		return tag;
+	private String tagid;
+	private String userid;
+	public String getTagid() {
+		return tagid;
 	}
-	public void setTag(String tag) {
-		this.tag = tag;
+	public void setTagid(String tagid) {
+		this.tagid = tagid;
 	}
-	public String getId() {
-		return id;
+	public String getUserid() {
+		return userid;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setUserid(String userid) {
+		this.userid = userid;
 	}
+
 
 }

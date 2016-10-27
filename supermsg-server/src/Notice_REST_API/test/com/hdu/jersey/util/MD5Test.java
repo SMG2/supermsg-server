@@ -10,7 +10,7 @@ public class MD5Test extends TestCase{
 	public void testMD5(){
 		try {
             String inputStr = "ºÚµ•º”√‹8888888888888888888";   
-            MD5.getResult(inputStr);
+            System.out.println(MD5.getResult(inputStr));;
        } catch (Exception e) {
            e.printStackTrace();
        }

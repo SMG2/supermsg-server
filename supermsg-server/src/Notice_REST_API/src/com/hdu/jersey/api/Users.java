@@ -58,6 +58,16 @@ public interface Users {
 	public String modify(@PathParam("userid")String id);
 	
 	
+	/**
+	 * 获得用户详细信息
+	 * 
+	 * */
+	@GET
+	@Path("/{userid}/detail")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String getUserDetailInfo(@PathParam("userid")String userid);
+	
+/******************************************************tag管理****************************************************************************/
 
 	/**
 	 * 获得某个用户的tag标签
@@ -72,34 +82,26 @@ public interface Users {
 	 * 	为某个用户创建一个tag
 	 * 
 	 * @param userid 用户id
-	 * @param tagName 标签
+	 * @param tagid 标签
 	 * 
 	 * */
 	@POST
-	@Path("/{userid/tag/{tagName}}")
+	@Path("/{userid/tags/{tagid}}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String createTagforUser(@PathParam("userid")String userid,@PathParam("tagName")String tagName);
+	public String createTagforUser(@PathParam("userid")String userid,@PathParam("tagid")String tagid);
 	
 	/**
 	 * 	删除用户的标签
 	 * 
 	 * @param userid  用户id
-	 * @param tagName 标签
+	 * @param tagid 标签id
 	 * 
 	 * */
 	@DELETE
-	@Path("/{userid}/tag/{tagName}")
+	@Path("/{userid}/tags/{tagid}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String deleteUserTag(@PathParam("userid")String userid,@PathParam("tagName")String tagName);
+	public String deleteUserTag(@PathParam("userid")String userid,@PathParam("tagid")String tagid);
 	
-	
-	/**
-	 * 获得用户详细信息
-	 * 
-	 * */
-	@GET
-	@Path("/{userid}/detail")
-	@Produces(MediaType.TEXT_PLAIN)
-	public String getUserDetailInfo(@PathParam("userid")String userid);
+
 }
 
