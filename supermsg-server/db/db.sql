@@ -18,12 +18,21 @@ CREATE TABLE `user_baseinfo` (
 	`school_num` VARCHAR (15) NOT NULL,
 	`nation` VARCHAR (10) NOT NULL,
 	`st_num` VARCHAR (12) NOT NULL,
-	`tag` VARCHAR (50) NOT NULL,
 	`pwd` VARCHAR (32) NOT NULL,
 	`sex` VARCHAR (4) NOT NULL,
 	`name` VARCHAR (10) NOT NULL,
 	PRIMARY KEY (`id`),
 	CONSTRAINT `FK_sch_num` FOREIGN KEY (`school_num`) REFERENCES `school_info` (`school_num`)
+);
+
+DROP TABLE
+IF EXISTS user_tag;
+
+CREATE TABLE `user_tag` (
+	`id` VARCHAR (32) NOT NULL,
+	`tag` VARCHAR (50) NOT NULL,
+	PRIMARY KEY (`id`),
+	CONSTRAINT `FK_tag_bi` FOREIGN KEY (`id`) REFERENCES `user_baseinfo` (`id`)
 );
 
 DROP TABLE
