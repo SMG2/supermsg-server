@@ -1,20 +1,32 @@
 package com.hdu.jersey.model;
 
+import javax.ws.rs.FormParam;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * 
  * 	用户基础信息类
  * 
  * */
-
+@XmlRootElement
 public class UserBaseInfo {
 
+	@FormParam("id")
 	private String id;
+	@FormParam("school_num")
 	private String school_num;
+	@FormParam("nation")
 	private String nation;
+	@FormParam("st_num")
 	private String st_num;
+	@FormParam("pwd")
 	private String pwd;
+	@FormParam("sex")
 	private String sex;
+	@FormParam("name")
 	private String name;
+	
+	
 	public String getNation() {
 		return nation;
 	}
