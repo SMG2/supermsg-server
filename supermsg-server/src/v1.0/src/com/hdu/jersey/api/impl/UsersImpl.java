@@ -1,5 +1,7 @@
 package com.hdu.jersey.api.impl;
 
+import java.util.ArrayList;
+
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -9,13 +11,24 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.hdu.jersey.dao.impl.UserBaseInfoDAOImpl;
+import com.hdu.jersey.dao.impl.UserDetailInfoDAOImpl;
+import com.hdu.jersey.model.UserBaseInfo;
+import com.hdu.jersey.util.JsonUtil;
+import com.sun.org.apache.bcel.internal.generic.NEW;
+
 @Path("/users")
 public class UsersImpl implements com.hdu.jersey.api.Users {
 
+	UserBaseInfoDAOImpl baseInfoDaoImpl = new UserBaseInfoDAOImpl();
+	UserDetailInfoDAOImpl detailDaoImpl = new UserDetailInfoDAOImpl();
+
+	
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	public String getUsers() {
-		return "all users";
+		ArrayList<UserBaseInfo> listBaseInfo = baseInfoDaoImpl.listBaseInfo();
+		return JsonUtil.Obj2Json(listBaseInfo);
 	}
 
 	@GET
@@ -23,7 +36,7 @@ public class UsersImpl implements com.hdu.jersey.api.Users {
 	@Path("/{userid}")
 	@Override
 	public String getUserByUserid(@PathParam("userid")			String userid) {
-		return "one :"+userid;
+		return JsonUtil.Obj2Json(baseInfoDaoImpl.showByid(userid));
 	}
 	
 

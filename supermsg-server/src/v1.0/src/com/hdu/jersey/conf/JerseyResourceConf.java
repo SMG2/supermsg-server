@@ -2,6 +2,7 @@ package com.hdu.jersey.conf;
 
 import javax.ws.rs.ApplicationPath;
 
+import org.glassfish.jersey.filter.LoggingFilter;
 import org.glassfish.jersey.server.ResourceConfig;
 
 /**
@@ -20,7 +21,7 @@ public class JerseyResourceConf extends ResourceConfig{
 		//注册json转换区
 //		register(JacksonFeature.class);
 		//注册请求日志
-//		register(LoggingFilter.class);
+		register(LoggingFilter.class);
 	}
 	
 }

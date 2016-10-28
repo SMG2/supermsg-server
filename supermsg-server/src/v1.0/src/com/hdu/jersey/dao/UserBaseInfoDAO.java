@@ -23,4 +23,5 @@ public interface UserBaseInfoDAO {
 	
 	ArrayList<UserBaseInfo> listBaseInfo();
 	
+	UserBaseInfo showByid(String id);
 }
