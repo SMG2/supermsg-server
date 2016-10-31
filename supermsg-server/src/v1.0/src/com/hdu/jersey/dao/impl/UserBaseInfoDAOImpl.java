@@ -52,11 +52,12 @@ public class UserBaseInfoDAOImpl implements UserBaseInfoDAO{
 		
 	}
 
-	@Override
+
 	/**
 	 * 返回1表示成功。0表示失败
 	 * 
-	 * */
+	 * */	
+	@Override
 	public int delete(String id) {
 		String sql = UserBaseInfoSql.DELETE_USER_BASEINFO_BY_ID;
 		System.out.println(sql);
@@ -145,7 +146,7 @@ public class UserBaseInfoDAOImpl implements UserBaseInfoDAO{
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return null;
+			return list_userbaseinfo;
 		}finally{
 			try {
 				rs.close();
@@ -158,7 +159,10 @@ public class UserBaseInfoDAOImpl implements UserBaseInfoDAO{
 		}
 	}
 
-	
+	/**
+	 * 	若不存在就返回null
+	 * 
+	 * */
 	@Override
 	public UserBaseInfo showByid(String id) {
 		String sql = UserBaseInfoSql.SHOW_USERBASEINFO;

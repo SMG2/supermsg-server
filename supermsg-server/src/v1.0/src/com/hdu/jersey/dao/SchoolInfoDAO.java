@@ -6,11 +6,14 @@ import com.hdu.jersey.model.SchoolInfo;
 
 public interface SchoolInfoDAO {
 
-	int add();
+	int add(SchoolInfo info);
 	
 	int delete(String id);
 	
+	@Deprecated
 	int modify();
 	
 	ArrayList<SchoolInfo> listSchools();
+	
+	SchoolInfo getInfoByNum(String school_num);
 }

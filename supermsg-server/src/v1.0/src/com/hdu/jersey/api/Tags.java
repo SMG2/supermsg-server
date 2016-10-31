@@ -16,7 +16,7 @@ public interface Tags {
 	 * 获得一个tag的多个用户
 	 * 
 	 * */
-	public String getAllTagsByUserId(String tagid
+	public String getAllTagsByTagId(String tagid
 			);
 	
 	/**
@@ -33,6 +33,7 @@ public interface Tags {
 	 * */
 	public String deleteATagByid(String tagid
 			);
+
 	
 	
 	

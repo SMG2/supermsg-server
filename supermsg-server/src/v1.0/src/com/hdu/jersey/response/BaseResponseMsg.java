@@ -21,6 +21,10 @@ public class BaseResponseMsg {
 		this.msg = msg;
 	}
 	
+	public BaseResponseMsg(int code,String msg){
+		this.code = code;
+		this.msg = msg;
+	}
 	
 
 }

@@ -1,5 +1,7 @@
 package com.hdu.jersey.api;
 
+import com.hdu.jersey.model.UserCreateModel;
+
 public interface Users {
 	
 	/**
@@ -28,7 +30,7 @@ public interface Users {
 	 * 
 	 * 创建用户
 	 * */
-	public String createUser();
+	public String createUser(UserCreateModel model);
 	
 	
 	/**XXXXXXXX
