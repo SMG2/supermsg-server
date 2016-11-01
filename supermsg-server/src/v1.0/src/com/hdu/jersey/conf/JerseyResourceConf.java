@@ -5,6 +5,8 @@ import javax.ws.rs.ApplicationPath;
 import org.glassfish.jersey.filter.LoggingFilter;
 import org.glassfish.jersey.server.ResourceConfig;
 
+import com.hdu.jersey.filter.AuthorizationRequestFilter;
+
 /**
  * @author F-zx
  * 
@@ -18,6 +20,7 @@ public class JerseyResourceConf extends ResourceConfig{
 		//注册接口的实现类
 		packages("com.hdu.jersey.api.impl");
 		
+		register(AuthorizationRequestFilter.class);
 		//注册json转换区
 //		register(JacksonFeature.class);
 		//注册请求日志

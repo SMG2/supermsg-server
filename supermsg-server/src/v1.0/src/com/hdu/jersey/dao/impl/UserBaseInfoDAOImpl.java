@@ -40,15 +40,16 @@ public class UserBaseInfoDAOImpl implements UserBaseInfoDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return 0;
-		}finally {
-			try {
-				connection.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return 0;
-			}
 		}
+//		finally {
+//			try {
+//				connection.close();
+//			} catch (SQLException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//				return 0;
+//			}
+//		}
 		
 	}
 
@@ -106,15 +107,16 @@ public class UserBaseInfoDAOImpl implements UserBaseInfoDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return 0;
-		}finally {
-			try {
-				connection.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return 0;
-			}
 		}
+//		finally {
+//			try {
+//				connection.close();
+//			} catch (SQLException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//				return 0;
+//			}
+//		}
 	}
 
 	@Override

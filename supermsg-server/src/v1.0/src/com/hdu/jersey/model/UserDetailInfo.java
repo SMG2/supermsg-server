@@ -27,9 +27,6 @@ public class UserDetailInfo {
 	@FormParam("phone")
 	private String phone;
 	
-	@FormParam("mail")
-	private String mail;
-	
 	
 	public String getId() {
 		return id;
@@ -48,12 +45,6 @@ public class UserDetailInfo {
 	}
 	public void setPhone(String phone) {
 		this.phone = phone;
-	}
-	public String getMail() {
-		return mail;
-	}
-	public void setMail(String mail) {
-		this.mail = mail;
 	}
 	public String getCollege() {
 		return college;

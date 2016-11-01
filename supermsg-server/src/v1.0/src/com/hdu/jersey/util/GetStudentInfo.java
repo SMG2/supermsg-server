@@ -2,7 +2,6 @@ package com.hdu.jersey.util;
 
 import java.io.IOException;
 
-import com.hdu.jersey.dao.impl.SchoolInfoDAOImpl;
 import com.hdu.jersey.model.UserBaseInfo;
 import com.hdu.jersey.model.UserDetailInfo;
 
@@ -39,7 +38,31 @@ public class GetStudentInfo {
 	
 //	private boolean 
 	
-	private GetStudentInfo getUtil;
+	private static GetStudentInfo getUtil;
+
+	public boolean isSuccess() {
+		return success;
+	}
+
+	public void setSuccess(boolean success) {
+		this.success = success;
+	}
+
+	public UserBaseInfo getBaseInfo() {
+		return baseInfo;
+	}
+
+	public void setBaseInfo(UserBaseInfo baseInfo) {
+		this.baseInfo = baseInfo;
+	}
+
+	public UserDetailInfo getDetailInfo() {
+		return detailInfo;
+	}
+
+	public void setDetailInfo(UserDetailInfo detailInfo) {
+		this.detailInfo = detailInfo;
+	}
 
 	private GetStudentInfo(String st_num,String st_pwd,String pwd,String phone,String school_num){
 		
@@ -51,7 +74,7 @@ public class GetStudentInfo {
 		this.st_num = st_num;
 	}
 	
-	public GetStudentInfo getInstance(String st_num,String st_pwd,String pwd,String phone,String school_num){
+	public static GetStudentInfo getInstance(String st_num,String st_pwd,String pwd,String phone,String school_num){
 		getUtil = new GetStudentInfo(st_num, st_pwd, pwd, phone, school_num);
 		return getUtil;
 	}
@@ -64,14 +87,13 @@ public class GetStudentInfo {
 		CheckStudent checkStudent = new CheckStudent(st_num, st_pwd);
 		try {
 			success = checkStudent.login();
+			if(!success)
+				return ;
 		} catch (IOException e) {
 			return ;
 		}
 		object = checkStudent.getInfo();
-		///*
-		//{"face":"共青团员","role":"学生","major":"软件工程","nation":"汉族","grade":"2014","sex":"男","name":"朱鑫","class":"14108414","academy":"计算机学院"}
-		// */
-
+		load();
 	}
 	
 	private void load(){

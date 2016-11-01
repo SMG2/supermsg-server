@@ -1,9 +1,7 @@
 package com.hdu.jersey.api.impl;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.validation.constraints.Null;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -17,15 +15,18 @@ import javax.ws.rs.core.MediaType;
 import com.hdu.jersey.dao.impl.SchoolInfoDAOImpl;
 import com.hdu.jersey.dao.impl.UserBaseInfoDAOImpl;
 import com.hdu.jersey.dao.impl.UserDetailInfoDAOImpl;
+import com.hdu.jersey.dao.impl.UserTagDAOImpl;
 import com.hdu.jersey.error.ErrorMsg;
 import com.hdu.jersey.error.ResponseCode;
+import com.hdu.jersey.model.Tag;
 import com.hdu.jersey.model.UserBaseInfo;
 import com.hdu.jersey.model.UserCreateModel;
+import com.hdu.jersey.model.UserDetailInfo;
+import com.hdu.jersey.model.UserTag;
 import com.hdu.jersey.response.BaseResponseMsg;
 import com.hdu.jersey.response.ResponseBuilder;
-import com.hdu.jersey.util.JsonUtil;
-
-import assist.main.CheckStudent;
+import com.hdu.jersey.util.GetStudentInfo;
+import com.hdu.openfire.regist.UserRegister;
 
 @Path("/users")
 public class UsersImpl implements com.hdu.jersey.api.Users {
@@ -33,6 +34,7 @@ public class UsersImpl implements com.hdu.jersey.api.Users {
 	UserBaseInfoDAOImpl baseInfoDaoImpl = new UserBaseInfoDAOImpl();
 	UserDetailInfoDAOImpl detailDaoImpl = new UserDetailInfoDAOImpl();
 	SchoolInfoDAOImpl impl = new SchoolInfoDAOImpl();
+	UserTagDAOImpl userTagDAOImpl = new UserTagDAOImpl();
 	
 
 	BaseResponseMsg msg = null;
@@ -49,7 +51,7 @@ public class UsersImpl implements com.hdu.jersey.api.Users {
 			msg = new BaseResponseMsg(ResponseCode.RESOURCE_NOT_FOUND, ErrorMsg.USERINFO_NOT＿FOUND);
 		else
 			msg = new BaseResponseMsg(ResponseCode.OK, "");
-		return ResponseBuilder.build(msg, JsonUtil.Obj2Json(listBaseInfo));
+		return ResponseBuilder.build(msg, listBaseInfo);
 	}
 
 	@GET
@@ -66,7 +68,7 @@ public class UsersImpl implements com.hdu.jersey.api.Users {
 		UserBaseInfo info = baseInfoDaoImpl.showByid(userid);
 		if(info == null)
 			return ResponseBuilder.build(new BaseResponseMsg(ResponseCode.RESOURCE_NOT_FOUND, ErrorMsg.RESOURCE_NOT_FOUND), null);
-		return ResponseBuilder.build(new BaseResponseMsg(ResponseCode.OK, ""), JsonUtil.Obj2Json(baseInfoDaoImpl.showByid(userid)));
+		return ResponseBuilder.build(new BaseResponseMsg(ResponseCode.OK, ""), baseInfoDaoImpl.showByid(userid));
 	}
 	
 
@@ -105,24 +107,31 @@ public class UsersImpl implements com.hdu.jersey.api.Users {
 			msg = new BaseResponseMsg(ResponseCode.NO_SCHOOL_EXIST_WITH_GIVEN_NUM, ErrorMsg.NO_SCHOOL_EXIST_WITH_GIVEN_NUM);
 			return ResponseBuilder.build(msg, null);
 		}
-		
-		
-		CheckStudent checkStudent = new CheckStudent("14108438", "Hdu1247430");
-		try {
-			checkStudent.login();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+		GetStudentInfo st_util = GetStudentInfo.getInstance(
+				model.getSt_num(), model.getSt_pwd(), model.getPwd(), model.getPhone(), model.getSchool_num()
+				);
+		if(!st_util.isSuccess())
+			msg = new BaseResponseMsg(ResponseCode.WRONG_PWD_OR_STNUM, ErrorMsg.WRONG_PWD_OR_STNUM);
+		else{
+			//在openfire中注册
+			UserRegister register = new UserRegister();
+			if(register.regist(model.getSchool_num()+model.getSt_num(), model.getPwd())){
+				msg = new BaseResponseMsg(ResponseCode.FAIL_TO_REGIST_IN_OPENGIRE, ErrorMsg.FAIL_TO_REGIST_IN_OPENGIRE);
+				return ResponseBuilder.build(msg, null);
+			}
+			int i = baseInfoDaoImpl.add(st_util.getBaseInfo());
+			int j = detailDaoImpl.add(st_util.getDetailInfo());
+			if(i != 1 || j != 1)
+				msg = new BaseResponseMsg(ResponseCode.USER_EXIST, ErrorMsg.USER_EXIST);
+			else{
+				msg = new BaseResponseMsg(200, "");
+			}
 		}
-		System.out.println(checkStudent.getInfo().toString());
-		
-		/*
-{"face":"共青团员","role":"学生","major":"软件工程","nation":"汉族","grade":"2014","sex":"男","name":"朱鑫","class":"14108414","academy":"计算机学院"}
-		 */
-		
-		return "create user by post";
+		return ResponseBuilder.build(msg, null);
 	}
 
+	@Deprecated
 	@PUT
 	@Path("/{userid}")
 	@Produces(MediaType.TEXT_PLAIN)
@@ -139,16 +148,31 @@ public class UsersImpl implements com.hdu.jersey.api.Users {
 	@Override
 	public String getUserDetailInfo(@PathParam("userid")			String userid) {
 		msg = msg!=null ? null:msg;
-		return "get "+userid+"'s detail infomation.";
+		if("".equals(userid)|| userid == null)
+			msg = new BaseResponseMsg(ResponseCode.USER_ID_NULL, ErrorMsg.USER_ID_NULL);
+		UserDetailInfo info = detailDaoImpl.getDetail(userid);
+		if(info == null)
+			msg = new BaseResponseMsg(ResponseCode.USER_NOT_EXIST, ErrorMsg.USER_NOT_EXIST);
+		else
+			msg = new BaseResponseMsg(200, "");
+		
+		return ResponseBuilder.build(msg, info);
 	}
 
 	@GET
 	@Path("/{userid}/tags")
 	@Produces(MediaType.TEXT_PLAIN)
 	@Override
-	public String getUserTags(@PathParam("userid")			String id) {
+	public String getUserTags(@PathParam("userid")			String userid) {
 		msg = msg!=null ? null:msg;
-		return "the "+id+"'s tag is tags.";
+		if("".equals(userid)|| userid == null)
+			msg = new BaseResponseMsg(ResponseCode.USER_ID_NULL, ErrorMsg.USER_ID_NULL);
+		ArrayList<Tag> list_tags = userTagDAOImpl.getTagsByUserid(userid);
+		if(list_tags.size()<1)
+			msg = new BaseResponseMsg(ResponseCode.USER_TAG_NOT_SET, ErrorMsg.USER_TAG_NOT_SET);
+		else
+			msg = new BaseResponseMsg(200, "");
+		return ResponseBuilder.build(msg, list_tags);
 	}
 
 	@POST
@@ -160,7 +184,15 @@ public class UsersImpl implements com.hdu.jersey.api.Users {
 			@PathParam("tagid")				String tagid
 			) {
 		msg = msg!=null ? null:msg;
-		return "create a tag:"+tagid+"for "+userid;
+		UserTag userTag = new UserTag();
+		userTag.setTagid(tagid);
+		userTag.setUserid(userid);
+		if(userTagDAOImpl.addTagForUser(userTag))
+			msg = new BaseResponseMsg(200, "");
+		else
+			msg = new BaseResponseMsg(ResponseCode.FAIL_TOADD_TAG_FOR_USER, "fail to add, user not exist or tagid not exist.");
+		
+		return ResponseBuilder.build(msg, null);
 	}
 
 	@DELETE
@@ -172,15 +204,18 @@ public class UsersImpl implements com.hdu.jersey.api.Users {
 			@PathParam("tagid")				String tagid
 			) {
 		msg = msg!=null ? null:msg;
-		return "delete a tag:"+tagid+"for "+userid;
+		UserTag userTag = new UserTag();
+		userTag.setTagid(tagid);
+		userTag.setUserid(userid);
+		
+		if(userTagDAOImpl.delete(userTag) == 1)
+			msg = new BaseResponseMsg(200, "");
+		else
+			msg = new BaseResponseMsg(ResponseCode.FAIL_DELETE_TAG_FOR_USER, "delete failed , check the userid and tagid .there is no tagid for this user.");
+			return ResponseBuilder.build(msg, null);
 	}
 	
 
-	
-	private void checkUsers(){
-		
-	}
-	
 
 }
 

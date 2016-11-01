@@ -19,9 +19,6 @@ import com.hdu.jersey.error.ResponseCode;
 import com.hdu.jersey.model.SchoolInfo;
 import com.hdu.jersey.response.BaseResponseMsg;
 import com.hdu.jersey.response.ResponseBuilder;
-import com.sun.org.apache.bcel.internal.generic.NEW;
-
-import net.sf.json.JSONObject;
 
 @Path("/schools")
 public class SchoolImpl implements Schools {

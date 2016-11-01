@@ -88,8 +88,13 @@ public class DBUtil {
 	 * 
 	 * */
 	public Connection getConnection(){
-		if(connection==null)
-			openConnection();
+		try {
+			if(connection==null||connection.isClosed())
+				openConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return connection;
 	}
 

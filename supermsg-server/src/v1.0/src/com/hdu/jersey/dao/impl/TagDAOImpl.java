@@ -2,6 +2,7 @@ package com.hdu.jersey.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.hdu.jersey.dao.TagDAO;
@@ -45,5 +46,45 @@ public class TagDAOImpl implements TagDAO{
 			}
 		}
 	}
+
+	/**
+	 * Ê§°ÜÎªnull
+	 * */
+	@Override
+	public Tag select(String tagid) {
+		Tag tag = null;
+		String sql = TagSql.SELECT_BY_ID;
+		System.out.println(sql);
+		Connection connection = dbutil.getConnection();
+		PreparedStatement psta = null;
+		ResultSet rs = null ;
+		try {
+			psta = connection.prepareStatement(sql);
+			psta.setString(1, tagid);
+			
+			rs = psta.executeQuery(sql);
+			if(rs.next()){
+				tag = new Tag();
+				tag.setTagid(tagid);
+				tag.setTagName(rs.getString("tagName"));
+			}
+			
+			return tag;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return tag;
+		}finally{
+			try {
+				rs.close();
+				psta.close();
+//				connection.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
 
 }
