@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin>
+    <class>com.hdu.openfire.msg.OfflineMsg</class>
+    <name>Offline message Service</name>
+    <description>store msg to own database.</description>
+    <author>hdu.zhuxin</author>
+	<version>0.1.0</version>
+    <date>11.11.16</date>
+    <minServerVersion>3.9.1</minServerVersion>
+</plugin>
