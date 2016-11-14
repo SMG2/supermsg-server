@@ -32,13 +32,10 @@ public class DBUtil {
 //		try {
 //			properties.load(this.getClass().getClassLoader().getResource("conf/db.properties").openStream());
 //		} catch (IOException e) {
-//			System.out.println("�����ļ�����ʧ��");
 //			e.printStackTrace();
 //		}catch (Exception e) {
-//			System.out.println("�����ļ�����ʧ��");
 //			e.printStackTrace();
 //		}
-//		//���ò���
 //		dbdriver = properties.getProperty("driver");
 //		dburl = properties.getProperty("url");
 //		username = properties.getProperty("userName");
@@ -130,7 +127,6 @@ public class DBUtil {
 			int result = statement.executeUpdate();
 			return result;
 		} catch (SQLException e) {
-			System.out.println("���ݸ���ʧ��");
 			e.printStackTrace();
 		}
 		return -1;

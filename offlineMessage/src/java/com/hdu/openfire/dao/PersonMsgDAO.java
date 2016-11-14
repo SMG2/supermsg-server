@@ -2,6 +2,7 @@ package com.hdu.openfire.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.hdu.openfire.dbutil.DBUtil;
@@ -20,6 +21,7 @@ public class PersonMsgDAO {
 	DETAIL VARCHAR (4000) 
 	 */
 	private final static String GROUP_INSERT = "insert into tb_group_msg values()";
+	private final static String IS_EXIST_PK = "SELECT MESSAGEID FROM tb_person_msg where MESSAGEID=?";
 	
 	public void addp2p(String msgid,String sessionid,String sender,String receiver,String createtime, String content,String detail){
 		Connection connection = dbUtil.getConnection();
@@ -45,6 +47,47 @@ public class PersonMsgDAO {
 			dbUtil.closeConnection();
 		}
 		
+	}
+	
+	/**
+	 * select id from tb to determine whether to continue .
+	 * @return TRUE is for exist
+	 * 
+	 * */
+	public boolean isExist(String msg_id){
+		Connection connection = dbUtil.getConnection();
+		ResultSet rs = null;
+		PreparedStatement psta = null;
+		try {
+			psta = connection.prepareStatement(IS_EXIST_PK);
+			psta.setString(1, msg_id);
+			
+			rs = psta.executeQuery();
+			
+//			return rs.next();
+			if(rs.next()){
+				System.out.println(rs.getString("MESSAGEID"));
+				return true;
+			}else {
+				return false;
+			}
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		finally {
+			try {
+				if(rs != null)
+					rs.close();
+				if(psta != null)
+					psta.close();
+			} catch (SQLException e) {
+				System.out.println("close error.");
+			}
+		}
 	}
 
 }
