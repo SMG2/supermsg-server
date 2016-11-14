@@ -24,7 +24,7 @@ public class GetStudentInfo {
 	private boolean success = false;
 	
 	UserBaseInfo baseInfo = new UserBaseInfo();
-	UserDetailInfo detailInfo = null;
+	UserDetailInfo detailInfo = new UserDetailInfo();
 	
 	JSONObject object = null;
 	
@@ -93,6 +93,7 @@ public class GetStudentInfo {
 			return ;
 		}
 		object = checkStudent.getInfo();
+		System.out.println(object.toString());
 		load();
 	}
 	
@@ -107,6 +108,7 @@ public class GetStudentInfo {
 		baseInfo.setSt_num(st_num);
 		
 		detailInfo.setCla(object.getString("class"));
+//		detailInfo.setCla("14108414");
 		detailInfo.setCollege(object.getString("academy"));
 		detailInfo.setGrade(object.getString("grade"));
 		detailInfo.setId(this.id);

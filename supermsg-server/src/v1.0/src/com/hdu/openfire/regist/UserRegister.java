@@ -26,6 +26,12 @@ public class UserRegister {
 		} catch (XMPPException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			try {
+				manager.deleteAccount();
+			} catch (XMPPException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			return false;
 		}
 	}

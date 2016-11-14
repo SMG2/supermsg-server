@@ -28,4 +28,6 @@ public final class ResponseCode {
 	
 	public final static int WRONG_PWD_OR_STNUM = 430;
 	
+	public final static int USER_IS_NOT_OFFLINE = 440;
+	
 }

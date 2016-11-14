@@ -195,7 +195,8 @@ public class SHA1 {
         return byteArrayToHexString(getDigestOfBytes(byteData));
     }
     public static void main(String[] args) {
-        String data = "abc";
+//    	System.out.println(System.currentTimeMillis());
+        String data = "12314779857324461033614108438";
         System.out.println(data);
         String digest = new SHA1().getDigestOfString(data.getBytes());
         System.out.println(digest);

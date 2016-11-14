@@ -142,7 +142,7 @@ public class UserTagDAOImpl implements UserTagDAO{
 	 * */
 	@Override
 	public int delete(UserTag userTag) {
-		String sql = UserTagInfoSql.INSERT_TAG_FOR_USER;
+		String sql = UserTagInfoSql.DELETE_TAG_FOR_USER;
 		System.out.println(sql);
 		Connection connection = dbutil.getConnection();
 		PreparedStatement psta = null;

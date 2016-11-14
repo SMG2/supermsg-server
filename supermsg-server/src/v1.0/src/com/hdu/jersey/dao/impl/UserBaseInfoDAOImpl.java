@@ -136,7 +136,7 @@ public class UserBaseInfoDAOImpl implements UserBaseInfoDAO{
 				baseInfo.setId(rs.getString("id"));
 				baseInfo.setName(rs.getString("name"));
 				baseInfo.setNation(rs.getString("nation"));
-				baseInfo.setPwd(rs.getString("pwd"));
+				baseInfo.setPwd("你猜");
 				baseInfo.setSex(rs.getString("sex"));
 				baseInfo.setSchool_num(rs.getString("school_num"));
 				baseInfo.setSt_num(rs.getString("st_num"));
@@ -184,7 +184,7 @@ public class UserBaseInfoDAOImpl implements UserBaseInfoDAO{
 				baseInfo.setId(rs.getString("id"));
 				baseInfo.setName(rs.getString("name"));
 				baseInfo.setNation(rs.getString("nation"));
-				baseInfo.setPwd(rs.getString("pwd"));
+				baseInfo.setPwd("这个不能说");
 				baseInfo.setSex(rs.getString("sex"));
 				baseInfo.setSchool_num(rs.getString("school_num"));
 				baseInfo.setSt_num(rs.getString("st_num"));

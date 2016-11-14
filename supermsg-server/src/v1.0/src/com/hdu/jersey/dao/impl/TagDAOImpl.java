@@ -62,7 +62,7 @@ public class TagDAOImpl implements TagDAO{
 			psta = connection.prepareStatement(sql);
 			psta.setString(1, tagid);
 			
-			rs = psta.executeQuery(sql);
+			rs = psta.executeQuery();
 			if(rs.next()){
 				tag = new Tag();
 				tag.setTagid(tagid);

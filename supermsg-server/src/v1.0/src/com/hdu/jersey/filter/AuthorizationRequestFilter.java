@@ -56,7 +56,7 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
             return ;
     	}
     	
-    	System.out.println("filter:-----------------------------");
+    	System.out.println("-------------------------------------filter:-----------------------------");
 //        final SecurityContext securityContext =
 //                    requestContext.getSecurityContext();
 //        if (securityContext == null ||

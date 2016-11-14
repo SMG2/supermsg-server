@@ -2,6 +2,7 @@ package com.hdu.jersey.api.impl;
 
 import java.util.ArrayList;
 
+import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -12,12 +13,14 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.hdu.jersey.dao.impl.OffLineMsgDAOImpl;
 import com.hdu.jersey.dao.impl.SchoolInfoDAOImpl;
 import com.hdu.jersey.dao.impl.UserBaseInfoDAOImpl;
 import com.hdu.jersey.dao.impl.UserDetailInfoDAOImpl;
 import com.hdu.jersey.dao.impl.UserTagDAOImpl;
 import com.hdu.jersey.error.ErrorMsg;
 import com.hdu.jersey.error.ResponseCode;
+import com.hdu.jersey.model.P2PMsg;
 import com.hdu.jersey.model.Tag;
 import com.hdu.jersey.model.UserBaseInfo;
 import com.hdu.jersey.model.UserCreateModel;
@@ -27,12 +30,18 @@ import com.hdu.jersey.response.BaseResponseMsg;
 import com.hdu.jersey.response.ResponseBuilder;
 import com.hdu.jersey.util.GetStudentInfo;
 import com.hdu.openfire.regist.UserRegister;
+import com.hdu.redis.jedis.RedisTool;
+import com.sun.org.apache.bcel.internal.generic.NEW;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 @Path("/users")
 public class UsersImpl implements com.hdu.jersey.api.Users {
 
 	UserBaseInfoDAOImpl baseInfoDaoImpl = new UserBaseInfoDAOImpl();
 	UserDetailInfoDAOImpl detailDaoImpl = new UserDetailInfoDAOImpl();
+	OffLineMsgDAOImpl offLineMsgDAOImpl = new OffLineMsgDAOImpl();
 	SchoolInfoDAOImpl impl = new SchoolInfoDAOImpl();
 	UserTagDAOImpl userTagDAOImpl = new UserTagDAOImpl();
 	
@@ -97,7 +106,7 @@ public class UsersImpl implements com.hdu.jersey.api.Users {
 	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Override
-	public String createUser(UserCreateModel model) {
+	public String createUser(@BeanParam UserCreateModel model) {
 		msg = msg!=null ? null:msg;
 		if(model.getSchool_num() == null || "".equals(model.getSchool_num())){
 			msg = new BaseResponseMsg(ResponseCode.NO_SCHOOL_ID, ErrorMsg.NO_SCHOOL_ID);
@@ -111,12 +120,13 @@ public class UsersImpl implements com.hdu.jersey.api.Users {
 		GetStudentInfo st_util = GetStudentInfo.getInstance(
 				model.getSt_num(), model.getSt_pwd(), model.getPwd(), model.getPhone(), model.getSchool_num()
 				);
+		st_util.spideFromWebAndLoad();
 		if(!st_util.isSuccess())
 			msg = new BaseResponseMsg(ResponseCode.WRONG_PWD_OR_STNUM, ErrorMsg.WRONG_PWD_OR_STNUM);
 		else{
 			//在openfire中注册
 			UserRegister register = new UserRegister();
-			if(register.regist(model.getSchool_num()+model.getSt_num(), model.getPwd())){
+			if(!register.regist(model.getSchool_num()+model.getSt_num(), model.getPwd())){
 				msg = new BaseResponseMsg(ResponseCode.FAIL_TO_REGIST_IN_OPENGIRE, ErrorMsg.FAIL_TO_REGIST_IN_OPENGIRE);
 				return ResponseBuilder.build(msg, null);
 			}
@@ -214,34 +224,28 @@ public class UsersImpl implements com.hdu.jersey.api.Users {
 			msg = new BaseResponseMsg(ResponseCode.FAIL_DELETE_TAG_FOR_USER, "delete failed , check the userid and tagid .there is no tagid for this user.");
 			return ResponseBuilder.build(msg, null);
 	}
+
+	@Override
+	@GET
+	@Path("/{userid}/offlineMsgs")
+	public String getOffLineMsg(
+			@PathParam("userid")			String userid) {
+		ArrayList<P2PMsg> offLineMsg_p2p = null;
+		JSONObject object = null;
+		
+		String offLine = RedisTool.getOffTimeByUserId(userid);
+		if(offLine == null)
+			msg = new BaseResponseMsg(ResponseCode.USER_IS_NOT_OFFLINE, "redis 中不存在该用户离线数据.");
+		else{
+			offLineMsg_p2p = offLineMsgDAOImpl.getOffLineMsg(userid, offLine);
+			object = new JSONObject();
+			object.accumulate("p2pmsg", offLineMsg_p2p);
+			msg = new BaseResponseMsg(200, "");
+		}
+		
+		return ResponseBuilder.build(msg, object);
+	}
 	
 
 
 }
-
-
-//@GET
-//@Path("head")
-//public String testHeader(@HeaderParam("name")String name){
-//	return "head  :"+name;
-//}
-
-//@GET
-//@Path("head")
-//@Produces(MediaType.TEXT_PLAIN)
-//public String testHeader(@Context HttpHeaders headers){
-//	MultivaluedMap<String, String> requestHeaders = headers.getRequestHeaders();
-//	List<String> value =requestHeaders.get("name");
-//	for (String string : value) {
-//		System.out.println(string);
-//	}
-//	
-//	return "header:"+value.get(0);
-//}
-
-//@GET
-//public String get(@Context UriInfo ui) {
-//    MultivaluedMap<String, String> queryParams = ui.getQueryParameters();
-//    MultivaluedMap<String, String> pathParams = ui.getPathParameters();
-//	return null;
-//}

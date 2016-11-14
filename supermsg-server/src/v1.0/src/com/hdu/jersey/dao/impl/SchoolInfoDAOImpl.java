@@ -148,7 +148,7 @@ public class SchoolInfoDAOImpl implements SchoolInfoDAO{
 			psta = connection.prepareStatement(sql);
 			psta.setString(1, school_num);
 			
-			rs = psta.executeQuery(sql);
+			rs = psta.executeQuery();
 			if(rs.next()){
 				info = new SchoolInfo();
 				info.setSchool_name(rs.getString("school_name"));

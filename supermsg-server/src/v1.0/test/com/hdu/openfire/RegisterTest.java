@@ -10,7 +10,7 @@ public class RegisterTest {
 	public void test() {
 	
 		UserRegister register = new UserRegister();
-		System.out.println(register.regist("552", "23"));
+		System.out.println(register.regist("52322", "23"));
 		
 	}
 

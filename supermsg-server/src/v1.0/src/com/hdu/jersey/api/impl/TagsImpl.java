@@ -2,6 +2,8 @@ package com.hdu.jersey.api.impl;
 
 import java.util.ArrayList;
 
+import javax.ws.rs.BeanParam;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -50,8 +52,9 @@ public class TagsImpl implements Tags{
 
 	@POST
 	@Produces(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Override
-	public String craeteNewTag(Tag tag) {
+	public String craeteNewTag(@BeanParam Tag tag) {
 		checkMsg();
 		if(tagdao.createTag(tag) != 1)
 			msg = new BaseResponseMsg(ResponseCode.CREATE_FAIL_FOR_TAG_EXIST, ErrorMsg.CREATE_FAIL_FOR_TAG_EXIST);

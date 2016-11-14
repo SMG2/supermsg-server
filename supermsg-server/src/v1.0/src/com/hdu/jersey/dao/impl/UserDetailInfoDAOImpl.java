@@ -121,7 +121,7 @@ public class UserDetailInfoDAOImpl implements UserDetailInfoDAO{
 		try {
 			psta = connection.prepareStatement(sql);
 			psta.setString(1, userid);
-			rs = psta.executeQuery(sql);
+			rs = psta.executeQuery();
 			if(rs.next()){
 				detailInfo = new UserDetailInfo();
 				detailInfo.setCla(rs.getString("class"));

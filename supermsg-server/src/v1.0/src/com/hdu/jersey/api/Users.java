@@ -76,6 +76,14 @@ public interface Users {
 	public String deleteUserTag(String userid,String tagid
 			);
 	
+	/*------------------------------------------------msg---------------------------------------------------------------*/
 
+	/**
+	 * 获取用户所有的离线消息
+	 * @param userid 用户id
+	 * 
+	 * */
+	public String getOffLineMsg(String userid
+			);
 }
 

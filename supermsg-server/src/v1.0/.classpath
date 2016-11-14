@@ -40,6 +40,8 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/smackLib/smackx-debug.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/smackLib/smackx-jingle.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/smackLib/smackx.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jedis-2.9.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-pool2-2.4.2.jar"/>
 	<classpathentry kind="con" path="com.genuitec.runtime.library/com.genuitec.generic_7.0">
 		<attributes>
 			<attribute name="owner.project.facets" value="jst.web"/>
