@@ -6,7 +6,7 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
 public class JedisPoolTool {
-	private static HostAndPort hostAndPort = new HostAndPort("localhost", 6379);
+	private static HostAndPort hostAndPort = new HostAndPort("localhost", 6380);
 	private static JedisPool pool = null;
 	
 	private static JedisPoolTool myPool = new JedisPoolTool();
@@ -22,7 +22,7 @@ public class JedisPoolTool {
 
 	private void initPool(){
 		JedisPoolConfig config = new JedisPoolConfig();
-		pool = new JedisPool(config,hostAndPort.getHost(),hostAndPort.getPort(),2000);
+		pool = new JedisPool(config,hostAndPort.getHost(),hostAndPort.getPort(),2000,"zx349766");
 	}
 	
 
