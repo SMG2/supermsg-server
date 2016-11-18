@@ -2,6 +2,7 @@ package com.hdu.jersey.api.impl;
 
 import java.util.ArrayList;
 
+import javax.validation.constraints.Null;
 import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -13,6 +14,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.hdu.jersey.dao.impl.GroupMessageDAOImpl;
 import com.hdu.jersey.dao.impl.OffLineMsgDAOImpl;
 import com.hdu.jersey.dao.impl.SchoolInfoDAOImpl;
 import com.hdu.jersey.dao.impl.UserBaseInfoDAOImpl;
@@ -20,6 +22,7 @@ import com.hdu.jersey.dao.impl.UserDetailInfoDAOImpl;
 import com.hdu.jersey.dao.impl.UserTagDAOImpl;
 import com.hdu.jersey.error.ErrorMsg;
 import com.hdu.jersey.error.ResponseCode;
+import com.hdu.jersey.model.GroupMessages;
 import com.hdu.jersey.model.P2PMsg;
 import com.hdu.jersey.model.Tag;
 import com.hdu.jersey.model.UserBaseInfo;
@@ -35,6 +38,7 @@ import com.sun.org.apache.bcel.internal.generic.NEW;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import redis.clients.jedis.Jedis;
 
 @Path("/users")
 public class UsersImpl implements com.hdu.jersey.api.Users {
@@ -42,6 +46,7 @@ public class UsersImpl implements com.hdu.jersey.api.Users {
 	UserBaseInfoDAOImpl baseInfoDaoImpl = new UserBaseInfoDAOImpl();
 	UserDetailInfoDAOImpl detailDaoImpl = new UserDetailInfoDAOImpl();
 	OffLineMsgDAOImpl offLineMsgDAOImpl = new OffLineMsgDAOImpl();
+	GroupMessageDAOImpl  groupMessageDAOImpl = new GroupMessageDAOImpl();
 	SchoolInfoDAOImpl impl = new SchoolInfoDAOImpl();
 	UserTagDAOImpl userTagDAOImpl = new UserTagDAOImpl();
 	
@@ -246,6 +251,39 @@ public class UsersImpl implements com.hdu.jersey.api.Users {
 		return ResponseBuilder.build(msg, object);
 	}
 	
-
+	
+	@POST
+	@Produces(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Path("/{userid}/messages/push")
+	public String pushMessages(
+			@BeanParam GroupMessages messages){
+		long count = 0;
+		checkMsg();
+		if(messages==null)
+			msg = new BaseResponseMsg(451, "messages id null.");
+		else{
+			//新起一个线程去存储message信息
+			new Thread(
+					new Runnable() {
+						
+						public void run() {
+							int i = groupMessageDAOImpl.add(messages);
+							System.out.println("messages 插入："+i);
+							
+						}
+					}
+					).start();
+			count = RedisTool.pushMessages(messages);
+			String str = "群组中在线的"+count+"人已经收到。";
+			msg = new BaseResponseMsg(200, str);
+		}
+		return ResponseBuilder.build(msg, null);
+		
+	}
+	
+	private void checkMsg(){
+		msg = msg!=null ? null:msg;
+	}
 
 }
