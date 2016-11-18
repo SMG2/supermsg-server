@@ -59,7 +59,12 @@ public class PersonMsgDAO {
 		ResultSet rs = null;
 		PreparedStatement psta = null;
 		try {
+			if(connection == null)
+				System.out.println("connection null");
+			System.out.println(IS_EXIST_PK);
 			psta = connection.prepareStatement(IS_EXIST_PK);
+			if(psta == null)
+				System.out.println("psta null");
 			psta.setString(1, msg_id);
 			
 			rs = psta.executeQuery();

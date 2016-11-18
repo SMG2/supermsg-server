@@ -18,10 +18,10 @@ public class DBUtil {
 	private static DBUtil instanceDbUtil = new DBUtil();
 	
 	private Properties properties = new Properties();
-	private static  String dbdriver;
-	private static  String dburl;
-	private static  String username;
-	private static  String password;
+	private static  String dbdriver = "com.mysql.jdbc.Driver";
+	private static  String dburl = "jdbc:mysql://120.27.49.173/db_chat";
+	private static  String username = "root";
+	private static  String password = "zx349766";
 	
 	private Connection connection;
 	
@@ -45,20 +45,19 @@ public class DBUtil {
 	
 	
 	public void openConnection(){
-		try {
-			properties.load(DBUtil.class.getClassLoader().getResourceAsStream("conf/db.properties"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-		//���ò���
-		dbdriver = properties.getProperty("driver");
-		dburl = properties.getProperty("url");
-		username = properties.getProperty("userName");
-		password = properties.getProperty("password");
-		
-		//��������
+//		try {
+//			properties.load(DBUtil.class.getClassLoader().getResourceAsStream("conf/db.properties"));
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		//���ò���
+//		dbdriver = properties.getProperty("driver");
+//		dburl = properties.getProperty("url");
+//		username = properties.getProperty("userName");
+//		password = properties.getProperty("password");
+
 		try {
 			Class.forName(dbdriver)
 			.newInstance();

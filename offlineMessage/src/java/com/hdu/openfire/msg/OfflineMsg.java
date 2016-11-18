@@ -22,7 +22,6 @@ public class OfflineMsg implements Plugin{
 		if(InterceptorManager ==null)
 			InterceptorManager = org.jivesoftware.openfire.interceptor.InterceptorManager.getInstance();
 		InterceptorManager.addInterceptor(interceptor);
-		System.out.println("-----------------------------------------------------------------------------");
 		
 		
 		System.out.println("offlinemsg plugin initialized.");

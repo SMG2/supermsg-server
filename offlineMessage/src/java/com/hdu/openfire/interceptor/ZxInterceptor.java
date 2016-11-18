@@ -27,19 +27,19 @@ public class ZxInterceptor implements PacketInterceptor{
 	private PersonMsgDAO PersonMsgDAO = new PersonMsgDAO();
 	private JedisPoolTool pool = JedisPoolTool.getInstance();
 	private Jedis jedis = null;
-	private DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	private DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");
 
 	@Override
 	public void interceptPacket(Packet packet, Session session, boolean incoming, boolean processed)
 			throws PacketRejectedException {
-        this.doAction(packet, incoming, processed, session);
+		if(incoming)
+			this.doAction(packet, incoming, processed, session);
 		
 		
 	}
 	
     private void doAction(Packet packet, boolean incoming, boolean processed, Session session) {
         Packet copyPacket = packet.createCopy();
-        System.out.println("*********************************************************************************");
         if (packet instanceof org.xmpp.packet.Message) {
             Message message = (Message) copyPacket;
             
@@ -47,12 +47,12 @@ public class ZxInterceptor implements PacketInterceptor{
            //p2p
             if (message.getType() == Message.Type.chat) {
             	String msgid = message.getID();
-            	if(PersonMsgDAO.isExist(msgid))
-            		return ;
+//            	if(PersonMsgDAO.isExist(msgid))
+//            		return ;
             	JID sessionid = session.getAddress();
             	JID from = message.getFrom();
             	JID to = message.getTo();
-				PersonMsgDAO.addp2p(msgid, sessionid.toFullJID(), from.toBareJID(), to.toBareJID(), 
+				PersonMsgDAO.addp2p(msgid, sessionid.toFullJID(), from.toBareJID().split("@")[0], to.toBareJID().split("@")[0], 
 						format.format(new Date()), message.getBody(), message.toXML());
 
             	
@@ -77,7 +77,7 @@ public class ZxInterceptor implements PacketInterceptor{
             if (presence.getType() == Presence.Type.unavailable) {
             	//offline
             	JID from = presence.getFrom();
-            	storeInRedis(from.toBareJID(), format.format(new Date()));
+            	storeInRedis(from.toBareJID().split("@")[0], format.format(new Date()));
             }
 	     } 
     }
