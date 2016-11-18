@@ -2,7 +2,6 @@ package com.hdu.jersey.api.impl;
 
 import java.util.ArrayList;
 
-import javax.validation.constraints.Null;
 import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -22,6 +21,7 @@ import com.hdu.jersey.dao.impl.UserDetailInfoDAOImpl;
 import com.hdu.jersey.dao.impl.UserTagDAOImpl;
 import com.hdu.jersey.error.ErrorMsg;
 import com.hdu.jersey.error.ResponseCode;
+import com.hdu.jersey.model.GroupLogResponse;
 import com.hdu.jersey.model.GroupMessages;
 import com.hdu.jersey.model.P2PMsg;
 import com.hdu.jersey.model.Tag;
@@ -34,11 +34,8 @@ import com.hdu.jersey.response.ResponseBuilder;
 import com.hdu.jersey.util.GetStudentInfo;
 import com.hdu.openfire.regist.UserRegister;
 import com.hdu.redis.jedis.RedisTool;
-import com.sun.org.apache.bcel.internal.generic.NEW;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import redis.clients.jedis.Jedis;
 
 @Path("/users")
 public class UsersImpl implements com.hdu.jersey.api.Users {
@@ -281,6 +278,21 @@ public class UsersImpl implements com.hdu.jersey.api.Users {
 		return ResponseBuilder.build(msg, null);
 		
 	}
+	
+	@GET
+	@Path("/{userid}/groupmessages/{groupid}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String getOfflineGroupMsg(
+			@PathParam("userid") String userid,
+			@PathParam("groupid") String groupid){
+		checkMsg();
+		ArrayList<GroupLogResponse> logs = groupMessageDAOImpl.getById(userid, groupid);
+		JSONObject object = new JSONObject();
+		object.accumulate("groupChatLogs", logs);
+		msg = new BaseResponseMsg(200, "");
+		return ResponseBuilder.build(msg, object);
+	}
+	
 	
 	private void checkMsg(){
 		msg = msg!=null ? null:msg;

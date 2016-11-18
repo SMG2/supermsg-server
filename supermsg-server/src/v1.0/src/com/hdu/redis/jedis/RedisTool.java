@@ -48,7 +48,9 @@ public class RedisTool {
 		
 		JSONObject object = JSONObject.fromObject(messages);
 		object.accumulate("craeteTime", format.format(new Date()));
-		return jedis.publish(messages.getGroupid(), object.toString());
+		long count = jedis.publish(messages.getGroupid(), object.toString());
+		pool.closeJedis(jedis);
+		return count;
 	}
 
 	public static void main(String[] args) {

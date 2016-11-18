@@ -6,7 +6,7 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
 public class JedisPoolTool {
-	private static HostAndPort hostAndPort = new HostAndPort("localhost", 6380);
+	private static HostAndPort hostAndPort = new HostAndPort("120.27.49.173", 6380);
 	private static JedisPool pool = null;
 	
 	private static JedisPoolTool myPool = new JedisPoolTool();

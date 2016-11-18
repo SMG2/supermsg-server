@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.hdu.jersey.dao.UserDetailInfoDAO;
 import com.hdu.jersey.dao.impl.sql.UserDetailInfoSql;
@@ -146,6 +147,47 @@ public class UserDetailInfoDAOImpl implements UserDetailInfoDAO{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+	}
+	
+	public List<String> getUseridsByclass(String groupid){
+		List<String> list = new ArrayList<>();
+		String sql = UserDetailInfoSql.QUERY_USERID_BY_CLASS;
+		System.out.println(sql);
+		
+		Connection connection = dbutil.getConnection();
+		PreparedStatement psta = null;
+		ResultSet rs = null ;
+		try {
+			psta = connection.prepareStatement(sql);
+			psta.setString(1, groupid);
+			
+			rs = psta.executeQuery();
+			if(rs.next()){
+				list.add(rs.getString("id"));
+			}
+			
+			return list;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return list;
+		}finally{
+			try {
+				rs.close();
+				psta.close();
+				connection.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public static void main(String[] args) {
+		List<String> useridsByclass = new UserDetailInfoDAOImpl().getUseridsByclass("14108414");
+		for (String string : useridsByclass) {
+			System.out.println(string);
 		}
 	}
 

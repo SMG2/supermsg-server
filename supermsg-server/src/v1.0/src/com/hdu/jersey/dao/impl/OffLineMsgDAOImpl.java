@@ -4,12 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
-import com.hdu.jersey.dao.impl.sql.SchoolInfoSql;
 import com.hdu.jersey.model.P2PMsg;
-import com.hdu.jersey.model.SchoolInfo;
 import com.hdu.jersey.util.DBUtil;
 
 public class OffLineMsgDAOImpl {
