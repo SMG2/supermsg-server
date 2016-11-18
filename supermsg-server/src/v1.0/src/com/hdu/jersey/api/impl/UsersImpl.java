@@ -13,6 +13,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.hdu.goeasy.Config;
 import com.hdu.jersey.dao.impl.GroupMessageDAOImpl;
 import com.hdu.jersey.dao.impl.OffLineMsgDAOImpl;
 import com.hdu.jersey.dao.impl.SchoolInfoDAOImpl;
@@ -35,6 +36,7 @@ import com.hdu.jersey.util.GetStudentInfo;
 import com.hdu.openfire.regist.UserRegister;
 import com.hdu.redis.jedis.RedisTool;
 
+import io.goeasy.GoEasy;
 import net.sf.json.JSONObject;
 
 @Path("/users")
@@ -46,6 +48,7 @@ public class UsersImpl implements com.hdu.jersey.api.Users {
 	GroupMessageDAOImpl  groupMessageDAOImpl = new GroupMessageDAOImpl();
 	SchoolInfoDAOImpl impl = new SchoolInfoDAOImpl();
 	UserTagDAOImpl userTagDAOImpl = new UserTagDAOImpl();
+	GoEasy goEasy = new GoEasy(Config.APP_KEY);
 	
 
 	BaseResponseMsg msg = null;
@@ -260,6 +263,17 @@ public class UsersImpl implements com.hdu.jersey.api.Users {
 		if(messages==null)
 			msg = new BaseResponseMsg(451, "messages id null.");
 		else{
+			new Thread(
+					new Runnable() {
+						
+						public void run() {
+							if(goEasy == null)
+								goEasy = new GoEasy(Config.APP_KEY);
+							goEasy.publish(messages.getGroupid(), messages.getContent());
+						}
+					}
+					).start();;
+			
 			//新起一个线程去存储message信息
 			new Thread(
 					new Runnable() {

@@ -19,7 +19,7 @@ public class JerseyResourceConf extends ResourceConfig{
 		// TODO Auto-generated constructor stub
 		//注册接口的实现类
 		packages("com.hdu.jersey.api.impl");
-		
+//		packages("com.hdu.web.api");
 		register(AuthorizationRequestFilter.class);
 		//注册json转换区
 //		register(JacksonFeature.class);
