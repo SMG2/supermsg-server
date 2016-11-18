@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script type="text/javascript" src="http://cdn.goeasy.io/goeasy.js"></script>
+
+<script type="text/javascript">
+
+  var goEasy = new GoEasy({
+    appkey: 'eb76ed63-ee44-4f07-96ac-eba8c2e544e6'
+  });
+
+  goEasy.subscribe({
+    channel: '14108414',
+    onMessage: function(message){
+      document.getElementById('test').innerHTML=message.content;
+      alert(' ’µΩ£∫'+message.content);
+    }
+  });
+
+</script>
+
+<p id = "test">this is p plugin.</p>
+</body>
+</html>
