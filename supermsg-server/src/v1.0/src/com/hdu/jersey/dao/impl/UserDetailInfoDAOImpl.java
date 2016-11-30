@@ -185,9 +185,55 @@ public class UserDetailInfoDAOImpl implements UserDetailInfoDAO{
 	}
 	
 	public static void main(String[] args) {
-		List<String> useridsByclass = new UserDetailInfoDAOImpl().getUseridsByclass("14108414");
-		for (String string : useridsByclass) {
-			System.out.println(string);
+//		List<String> useridsByclass = new UserDetailInfoDAOImpl().getUseridsByclass("14108414");
+//		for (String string : useridsByclass) {
+//			System.out.println(string);
+//		}
+		
+		System.out.println(new UserDetailInfoDAOImpl().getUserGroupByUserid("1033614108438"));
+	}
+
+	
+	/**
+	 * 获取用户所在的群组
+	 * @param userid 用户id
+	 * 
+	 * @retrun 返回用户所在的class作为群组,若不存在用户信息，则返回""
+	 * 
+	 * */
+	@Override
+	public String getUserGroupByUserid(String userid) {
+
+		String rel = "";
+		String sql = UserDetailInfoSql.QUERY_USER_GROUP_BY_USERID;
+		System.out.println(sql);
+		
+		Connection connection = dbutil.getConnection();
+		PreparedStatement psta = null;
+		ResultSet rs = null ;
+		try {
+			psta = connection.prepareStatement(sql);
+			psta.setString(1, userid);
+			
+			rs = psta.executeQuery();
+			if(rs.next()){
+				rel = rs.getString("class");
+			}
+			
+			return rel;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return rel;
+		}finally{
+			try {
+				rs.close();
+				psta.close();
+				connection.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 

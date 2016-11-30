@@ -45,6 +45,11 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/goeasy-sdk-0.3.3.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/gson-2.3.1.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/slf4j-api-1.7.2.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/PushJavaSDK.jar" sourcepath="E:/downGit/xinge-api-java">
+		<attributes>
+			<attribute name="source_encoding" value="UTF-8"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="con" path="com.genuitec.runtime.library/com.genuitec.generic_7.0">
 		<attributes>
 			<attribute name="owner.project.facets" value="jst.web"/>

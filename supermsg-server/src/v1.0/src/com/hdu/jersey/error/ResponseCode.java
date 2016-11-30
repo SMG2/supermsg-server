@@ -30,4 +30,6 @@ public final class ResponseCode {
 	
 	public final static int USER_IS_NOT_OFFLINE = 440;
 	
+	public final static int PUSH_TAGS_BE_NULL = 460;
+	
 }

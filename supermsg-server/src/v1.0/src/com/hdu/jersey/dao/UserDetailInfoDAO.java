@@ -15,4 +15,6 @@ public interface UserDetailInfoDAO {
 	UserDetailInfo getDetail(String userid);
 	
 	ArrayList<UserDetailInfo> listDetailInfo();
+	
+	String getUserGroupByUserid(String userid);
 }

@@ -2,6 +2,7 @@ package com.hdu.jersey.api.impl;
 
 import java.util.ArrayList;
 
+import javax.validation.constraints.Null;
 import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -312,4 +313,30 @@ public class UsersImpl implements com.hdu.jersey.api.Users {
 		msg = msg!=null ? null:msg;
 	}
 
+	
+	
+	/*-------------------------------------------------------groups-------------------------------------------------------------------------*/
+	
+	@GET
+	@Path("/{userid}/group")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String getUserGroup(
+			@PathParam("userid") String userid){
+		checkMsg();
+
+		JSONObject object = new JSONObject();
+		String group = detailDaoImpl.getUserGroupByUserid(userid);
+		if("".equals(group)){
+			msg = new BaseResponseMsg(ResponseCode.USER_NOT_EXIST, ErrorMsg.USER_NOT_EXIST);
+			object = null;
+		}
+		else{
+
+			msg = new BaseResponseMsg(200, "");
+			object.accumulate("group", group);
+		}
+		
+		return ResponseBuilder.build(msg, object);
+	}
+	
 }

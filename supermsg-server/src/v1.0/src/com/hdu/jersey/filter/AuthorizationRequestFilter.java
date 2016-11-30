@@ -22,6 +22,9 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
     public void filter(ContainerRequestContext requestContext)
                     throws IOException {
  
+    	if("OPTIONS".equalsIgnoreCase(requestContext.getMethod()))
+    		return ;
+    	
     	if("/users".equals(requestContext.getUriInfo().getPath()) && requestContext.getMethod().equalsIgnoreCase("POST"))
     		return ;
     	
@@ -47,7 +50,7 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
     	
     	String data = Nonce+Timestamp+userid;
     	String digest = new com.hdu.jersey.util.SHA1().getDigestOfString(data.getBytes());
-    	if(!digest.equals(Signature)){
+    	if(!digest.equalsIgnoreCase(Signature)){
             requestContext.abortWith(Response
                     .status(Response.Status.UNAUTHORIZED)
                     .entity(ResponseBuilder.build(

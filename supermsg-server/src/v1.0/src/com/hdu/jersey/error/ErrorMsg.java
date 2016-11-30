@@ -22,4 +22,6 @@ public final class ErrorMsg {
 	
 	public final static String WRONG_PWD_OR_STNUM = "wrong student num or student password.please check and retry.";
 	
+	public final static String EMPTY_TAGS_OR_TAGS_NOT_SET_WHEN_PUSHING = "empty tags or tags not set while pushing msg.";
+	
 }
