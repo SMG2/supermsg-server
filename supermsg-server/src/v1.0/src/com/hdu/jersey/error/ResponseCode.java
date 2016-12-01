@@ -32,4 +32,8 @@ public final class ResponseCode {
 	
 	public final static int PUSH_TAGS_BE_NULL = 460;
 	
+	public final static int UNDEFINED_ACTION = 470;
+	
+	public final static int ENCRYP_ERROR = 480;
+	
 }

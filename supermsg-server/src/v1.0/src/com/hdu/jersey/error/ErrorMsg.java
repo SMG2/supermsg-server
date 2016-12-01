@@ -24,4 +24,8 @@ public final class ErrorMsg {
 	
 	public final static String EMPTY_TAGS_OR_TAGS_NOT_SET_WHEN_PUSHING = "empty tags or tags not set while pushing msg.";
 	
+	public final static String UNDEFINED_ACTION = "this action id not defined advance.";
+	
+	public final static String ENCRYP_ERROR = "error occured when encryp the token.";
+	
 }

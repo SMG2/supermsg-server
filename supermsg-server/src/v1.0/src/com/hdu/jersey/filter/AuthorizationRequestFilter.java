@@ -28,6 +28,10 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
     	if("/users".equals(requestContext.getUriInfo().getPath()) && requestContext.getMethod().equalsIgnoreCase("POST"))
     		return ;
     	
+    	//调用授权接口是跳过
+    	if("/auth/qrcode".equals(requestContext.getUriInfo().getPath()))
+    		return ;
+    	
     	MultivaluedMap<String, String> headers = requestContext.getHeaders();
     	if(!(headers.containsKey("Nonce")
     			&&headers.containsKey("Timestamp")

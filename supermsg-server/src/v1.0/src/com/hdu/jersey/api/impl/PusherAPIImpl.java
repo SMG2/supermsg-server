@@ -19,7 +19,6 @@ import com.hdu.jersey.model.PusherModel;
 import com.hdu.jersey.response.BaseResponseMsg;
 import com.hdu.jersey.response.ResponseBuilder;
 import com.hdu.pusher.api.Pusher;
-import com.sun.org.apache.bcel.internal.generic.NEW;
 
 /**
  * @author F-zx

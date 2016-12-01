@@ -2,7 +2,6 @@ package com.hdu.jersey.api.impl;
 
 import java.util.ArrayList;
 
-import javax.validation.constraints.Null;
 import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -261,7 +260,8 @@ public class UsersImpl implements com.hdu.jersey.api.Users {
 			@BeanParam GroupMessages messages){
 		long count = 0;
 		checkMsg();
-		if(messages==null)
+		
+		if(messages.getGroupid() == null || "".equals(messages.getGroupid()))
 			msg = new BaseResponseMsg(451, "messages id null.");
 		else{
 			new Thread(
@@ -273,7 +273,7 @@ public class UsersImpl implements com.hdu.jersey.api.Users {
 							goEasy.publish(messages.getGroupid(), messages.getContent());
 						}
 					}
-					).start();;
+					).start();
 			
 			//新起一个线程去存储message信息
 			new Thread(
