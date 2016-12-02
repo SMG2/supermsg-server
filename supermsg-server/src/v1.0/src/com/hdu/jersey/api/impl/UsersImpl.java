@@ -26,12 +26,14 @@ import com.hdu.jersey.model.GroupLogResponse;
 import com.hdu.jersey.model.GroupMessages;
 import com.hdu.jersey.model.P2PMsg;
 import com.hdu.jersey.model.Tag;
+import com.hdu.jersey.model.UserActionModel;
 import com.hdu.jersey.model.UserBaseInfo;
 import com.hdu.jersey.model.UserCreateModel;
 import com.hdu.jersey.model.UserDetailInfo;
 import com.hdu.jersey.model.UserTag;
 import com.hdu.jersey.response.BaseResponseMsg;
 import com.hdu.jersey.response.ResponseBuilder;
+import com.hdu.jersey.util.BASE64;
 import com.hdu.jersey.util.GetStudentInfo;
 import com.hdu.openfire.regist.UserRegister;
 import com.hdu.redis.jedis.RedisTool;
@@ -339,4 +341,62 @@ public class UsersImpl implements com.hdu.jersey.api.Users {
 		return ResponseBuilder.build(msg, object);
 	}
 	
+	/*------------------------------------------------------auth----------------------------------------------------------------------*/
+	
+	/**
+	 * 用户登录验证,并且将userid加密返回到token里面传输到前端页面
+	 * 
+	 * */
+//	@POST
+//	@Path("/auth/{qrcode}")
+//	@Produces(MediaType.TEXT_PLAIN)
+//	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+//	public String authLogin(
+//			@BeanParam UserActionModel model,
+//			@PathParam("qrcode") String qrcode) {
+//		
+//		if(!"login".equals(model.getAction()))
+//			return ResponseBuilder.build(new BaseResponseMsg(ResponseCode.UNDEFINED_ACTION, ErrorMsg.UNDEFINED_ACTION), null);
+//		
+//		
+//		//解密qrcode
+//		byte[] a;
+//		try {
+//			a = BASE64.decryptBASE64(qrcode);
+//		} catch (Exception e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//			return ResponseBuilder.build(new BaseResponseMsg(ResponseCode.DECRYP_ERROR, ErrorMsg.DECRYP_ERROR), null);
+//		}
+//		//获取channel
+//		String channel = RedisTool.get(new String(a));
+//		if(channel == null || "null".equals(channel))
+//			return ResponseBuilder.build(new BaseResponseMsg(ResponseCode.NO_KEY_FOUND_IN_REDIS, ErrorMsg.NO_KEY_FOUND_IN_REDIS), null);
+//		
+//		
+//		JSONObject object = new JSONObject();
+//		object.accumulate("userid", model.getUserid());
+//		try {
+//			object.accumulate("token", BASE64.encryptBASE64(model.getUserid().getBytes()));
+//			object.accumulate("action", model.getAction());
+//		} catch (Exception e) {
+//			return ResponseBuilder.build(new BaseResponseMsg(ResponseCode.ENCRYP_ERROR, ErrorMsg.ENCRYP_ERROR), null);
+//		}
+//		
+//		
+//		new Thread(
+//				new Runnable() {
+//					
+//					public void run() {
+//						if(goEasy == null)
+//							goEasy = new GoEasy(Config.APP_KEY);
+//							goEasy.publish(channel, object.toString());
+//					}
+//				}
+//				).start();
+//		//存储（暂时不写）
+//		
+//		
+//		return ResponseBuilder.build(new BaseResponseMsg(200,""), null);
+//	}
 }

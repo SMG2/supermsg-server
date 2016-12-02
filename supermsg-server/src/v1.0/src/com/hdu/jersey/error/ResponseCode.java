@@ -35,5 +35,11 @@ public final class ResponseCode {
 	public final static int UNDEFINED_ACTION = 470;
 	
 	public final static int ENCRYP_ERROR = 480;
+	public final static int DECRYP_ERROR = 481;
+	
+	public final static int NO_KEY_FOUND_IN_REDIS = 490;
+	
+	
+	
 	
 }

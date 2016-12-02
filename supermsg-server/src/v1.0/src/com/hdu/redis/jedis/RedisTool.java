@@ -37,6 +37,39 @@ public class RedisTool {
 		}
 	}
 	
+
+	private static int count = 0;
+	/**
+	 * 存储qrcode登录信息到redis，将时间戳，以及md5的channel信息存储到redis数据库
+	 * 
+	 * */
+	public static String set(String timestamp,String channel){
+		if(pool == null)
+			pool = JedisPoolTool.getInstance();
+		Jedis jedis = pool.getJedis();
+		String rel = jedis.set("qrcode_"+timestamp, channel);
+		if(!"OK".equalsIgnoreCase(rel) && count++ < 3)
+			set(timestamp, channel);
+		pool.closeJedis(jedis);
+		return rel;
+	}
+	
+	/**
+	 * 获取该时间戳的信息,将改信息前面加上qrcode方便管理
+	 * 
+	 * @author F-zx
+	 * @return 返回md5加密信息，该信息为channel，向该channel推送消息，登录action
+	 * 
+	 * */
+	public static String get(String timestamp){
+		if(pool == null)
+			pool = JedisPoolTool.getInstance();
+		Jedis jedis = pool.getJedis();
+		String rel = jedis.get("qrcode_"+timestamp);
+		pool.closeJedis(jedis);
+		return rel;
+	}
+	
 	/**
 	 * 向topic中推送消息,返回值为已经在线订阅的人
 	 * 
@@ -54,6 +87,10 @@ public class RedisTool {
 	}
 
 	public static void main(String[] args) {
-		System.out.println(getOffTimeByUserId("zhuxin"));
+//		System.out.println(getOffTimeByUserId("zhuxin"));
+		
+		
+//		System.out.println(set("123", "456"));
+		System.out.println(get("123"));
 	}
 }

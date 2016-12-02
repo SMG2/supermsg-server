@@ -8,8 +8,8 @@ import com.hdu.jersey.model.UserActionModel;
  * */
 public interface Auth {
 	
-	public String authLogin(UserActionModel model ,String userid);
+	public String authLogin(UserActionModel model , String qrcode);
 
 	
-	public String getAuthInfoForQrcode();
+	public String getAuthInfoForQrcode(String timestamp);
 }

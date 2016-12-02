@@ -17,6 +17,8 @@ import com.hdu.jersey.model.UserActionModel;
 import com.hdu.jersey.response.BaseResponseMsg;
 import com.hdu.jersey.response.ResponseBuilder;
 import com.hdu.jersey.util.BASE64;
+import com.hdu.jersey.util.MD5;
+import com.hdu.redis.jedis.RedisTool;
 
 import io.goeasy.GoEasy;
 import net.sf.json.JSONObject;
@@ -35,31 +37,53 @@ public class AuthImpl implements Auth{
 	 * 
 	 * */
 	@POST
-	@Path("/users/{userid}")
+	@Path("/qrcode/{qrcode}")
 	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Override
 	public String authLogin(
 			@BeanParam UserActionModel model,
-			@PathParam("userid") String userid) {
+			@PathParam("qrcode") String qrcode) {
 		
 		if(!"login".equals(model.getAction()))
 			return ResponseBuilder.build(new BaseResponseMsg(ResponseCode.UNDEFINED_ACTION, ErrorMsg.UNDEFINED_ACTION), null);
 		
-		JSONObject object = new JSONObject();
-		object.accumulate("userid", userid);
+		
+		//解密qrcode
+		byte[] a;
 		try {
-			object.accumulate("token", BASE64.encryptBASE64(userid.getBytes()));
+			a = BASE64.decryptBASE64(qrcode);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			return ResponseBuilder.build(new BaseResponseMsg(ResponseCode.DECRYP_ERROR, ErrorMsg.DECRYP_ERROR), null);
+		}
+		//获取channel
+		String channel = RedisTool.get(new String(a));
+		if(channel == null || "null".equals(channel))
+			return ResponseBuilder.build(new BaseResponseMsg(ResponseCode.NO_KEY_FOUND_IN_REDIS, ErrorMsg.NO_KEY_FOUND_IN_REDIS), null);
+		
+		
+		JSONObject object = new JSONObject();
+		object.accumulate("userid", model.getUserid());
+		try {
+			
+			String token = BASE64.encryptBASE64(model.getUserid().getBytes());
+			token  = token.substring(0, token.length()-2);
+			object.accumulate("token", token);
+			object.accumulate("action", model.getAction());
 		} catch (Exception e) {
 			return ResponseBuilder.build(new BaseResponseMsg(ResponseCode.ENCRYP_ERROR, ErrorMsg.ENCRYP_ERROR), null);
 		}
+		
+		
 		new Thread(
 				new Runnable() {
 					
 					public void run() {
 						if(goEasy == null)
 							goEasy = new GoEasy(Config.APP_KEY);
-							goEasy.publish("auth", object.toString());
+							goEasy.publish(channel, object.toString());
 					}
 				}
 				).start();
@@ -75,12 +99,26 @@ public class AuthImpl implements Auth{
 	 * */
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
-	@Path("/qrcode")
-	public String getAuthInfoForQrcode(){
+	@Path("/qrcode/{timestamp}")
+	public String getAuthInfoForQrcode(@PathParam("timestamp")String timestamp){
 		BaseResponseMsg msg = new BaseResponseMsg(200, "");
 		JSONObject object = new JSONObject();
-		object.accumulate("qrcode", getQrcodeMsg());
-		object.accumulate("url", "http:120.27.49.173:8080/v1.0/auth/users/");
+		String qrcodeMsg = getQrcodeMsg(timestamp);
+		qrcodeMsg = qrcodeMsg.substring(0, qrcodeMsg.length()-2);
+//		object.accumulate("qrcode",qrcodeMsg);
+		String channel  =  getChannel(timestamp);
+		object.accumulate("channel", channel);
+		object.accumulate("url", "http:120.27.49.173:8080/v1.0/auth/qrcode/"+qrcodeMsg);
+		
+		//存储qrcode信息以及管道信息到redis中
+		new Thread(
+				new Runnable() {
+					@Override
+					public void run() {
+						RedisTool.set(timestamp, channel);						
+					}
+				}
+				).start();
 		return ResponseBuilder.build(msg, object);
 	}
 	
@@ -88,9 +126,28 @@ public class AuthImpl implements Auth{
 	 * 获取当前的时间戳，作为data的qrcode
 	 * 
 	 * */
-	private static String getQrcodeMsg(){
-		long s = System.currentTimeMillis();
-		String rel = com.hdu.jersey.util.MD5.getResult(String.valueOf(s));
+	private static String getQrcodeMsg(String timestamp){
+		String rel = null;
+		try {
+			rel = BASE64.encryptBASE64(timestamp.getBytes());
+			System.out.println(rel);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return rel;
+	}
+	
+	/**
+	 * 获取网页前端需要监听的端口
+	 * */
+	private static String getChannel(String timestamp){
+		return MD5.getResult(timestamp);
+	}
+	
+	
+	public static void main(String[] args) throws Exception {
+		System.out.println(BASE64.encryptBASE64("helljkljlkjlk12315456o".getBytes()));
+		byte[] a = BASE64.decryptBASE64("MTIzNTY0");
+		System.out.println(new String(a));
 	}
 }

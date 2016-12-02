@@ -14,14 +14,15 @@ public class UserActionModel {
 	@FormParam("action")
 	private String action;
 	
-	@FormParam("qrcode")
-	private String qrcode;
+	@FormParam("userid")
+	private String userid;
 	
-	public String getQrcode() {
-		return qrcode;
+
+	public String getUserid() {
+		return userid;
 	}
-	public void setQrcode(String qrcode) {
-		this.qrcode = qrcode;
+	public void setUserid(String userid) {
+		this.userid = userid;
 	}
 	public String getAction() {
 		return action;

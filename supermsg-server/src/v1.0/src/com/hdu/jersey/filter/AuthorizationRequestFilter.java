@@ -29,7 +29,7 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
     		return ;
     	
     	//调用授权接口是跳过
-    	if("/auth/qrcode".equals(requestContext.getUriInfo().getPath()))
+    	if(requestContext.getUriInfo().getPath().contains("/auth/qrcode"))
     		return ;
     	
     	MultivaluedMap<String, String> headers = requestContext.getHeaders();

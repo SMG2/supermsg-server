@@ -27,5 +27,8 @@ public final class ErrorMsg {
 	public final static String UNDEFINED_ACTION = "this action id not defined advance.";
 	
 	public final static String ENCRYP_ERROR = "error occured when encryp the token.";
+	public final static String DECRYP_ERROR = "error occured when decryp the token.";
+	
+	public final static String NO_KEY_FOUND_IN_REDIS = "no keys found in database with the key you given.";
 	
 }
