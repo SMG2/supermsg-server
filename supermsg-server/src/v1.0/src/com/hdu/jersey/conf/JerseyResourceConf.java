@@ -11,6 +11,8 @@ import com.hdu.jersey.filter.AuthorizationRequestFilter;
 /**
  * @author F-zx
  * 
+ * jersey配置文件，注册class以及packages
+ * 
  * */
 
 @ApplicationPath("/conf")

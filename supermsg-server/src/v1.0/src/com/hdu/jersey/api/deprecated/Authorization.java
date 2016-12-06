@@ -13,12 +13,17 @@ import com.hdu.redis.jedis.RedisTool;
 
 import net.sf.json.JSONObject;
 
+/**
+ * 已经丢弃的接口，该接口的问题在于lambda表达式错误，jersey不适合java8
+ * 
+ * */
 @Path("/auth")
 public class Authorization {
 
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/qrcode/{timestamp}")
+	@Deprecated
 	public String test(@PathParam("timestamp") String timestamp){
 		
 		BaseResponseMsg msg = new BaseResponseMsg(200, "");

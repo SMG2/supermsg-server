@@ -14,6 +14,12 @@ import com.hdu.jersey.response.ResponseBuilder;
 
 import net.sf.json.JSONObject;
 
+/**
+ * 群组接口：
+ *  1.获取群组中的所有用户
+ *  2.获取用户所在群组
+ * 
+ * */
 @Path("/groups")
 public class Groups {
 
@@ -21,6 +27,12 @@ public class Groups {
 	
 	private BaseResponseMsg msg = null;
 	
+	
+	/**
+	 * 通过群组id获取群组中所有用户id
+	 * @param groupid 群组id<b>从url中获取</b>
+	 * 
+	 * */
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/{groupid}/users")

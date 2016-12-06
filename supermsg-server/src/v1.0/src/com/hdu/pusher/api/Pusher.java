@@ -21,6 +21,9 @@ public class Pusher {
 	private static Style style = null;
 	private static Message message = null;
 	
+	/**
+	 * ≥ı ºªØ
+	 */
 	private static void init(){
 		if(style == null || message == null){
 			

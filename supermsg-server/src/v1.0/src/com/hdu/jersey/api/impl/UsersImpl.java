@@ -41,6 +41,9 @@ import com.hdu.redis.jedis.RedisTool;
 import io.goeasy.GoEasy;
 import net.sf.json.JSONObject;
 
+/**
+ * 用户接口
+ * */
 @Path("/users")
 public class UsersImpl implements com.hdu.jersey.api.Users {
 
@@ -58,6 +61,10 @@ public class UsersImpl implements com.hdu.jersey.api.Users {
 	/*----------如果msg不为空表示其他地方已经初始化过，所以复位----------*/
 //	msg = msg!=null ? null:msg;
 	
+	/**
+	 * 获取所有用户基础信息<br/>
+	 * url:/v1.0/users
+	 * */
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	public String getUsers() {
@@ -70,6 +77,11 @@ public class UsersImpl implements com.hdu.jersey.api.Users {
 		return ResponseBuilder.build(msg, listBaseInfo);
 	}
 
+	/**
+	 * 通过id获取用户基础信息<br/>
+	 * url:/v1.0/users/{userid}
+	 * 
+	 * */
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/{userid}")
@@ -88,6 +100,11 @@ public class UsersImpl implements com.hdu.jersey.api.Users {
 	}
 	
 
+	
+	/**
+	 * 删除用户
+	 * @param userid 用户id，通过id删除
+	 * */
 	@DELETE
 	@Path("/{userid}")
 	@Produces(MediaType.TEXT_PLAIN)	
@@ -109,6 +126,12 @@ public class UsersImpl implements com.hdu.jersey.api.Users {
 	}
 	
 
+	/**
+	 * 创建用户<br/>
+	 * url：/v1.0/users<br/>
+	 * Method:post<br/>
+	 * @param model 创建用户所需的model信息
+	 * */
 	@POST
 	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -148,6 +171,9 @@ public class UsersImpl implements com.hdu.jersey.api.Users {
 		return ResponseBuilder.build(msg, null);
 	}
 
+	/**
+	 * 修改用户
+	 * */
 	@Deprecated
 	@PUT
 	@Path("/{userid}")
@@ -159,6 +185,12 @@ public class UsersImpl implements com.hdu.jersey.api.Users {
 		return "modify user by id."+userid;
 	}
 
+	/**
+	 * 获取用户详细信息
+	 * url：/v1.0/users/{userid}/detail
+	 * method:get
+	 * @param userid 查询的用户id
+	 * */
 	@GET
 	@Path("/{userid}/detail")
 	@Produces(MediaType.TEXT_PLAIN)
@@ -176,6 +208,11 @@ public class UsersImpl implements com.hdu.jersey.api.Users {
 		return ResponseBuilder.build(msg, info);
 	}
 
+	/**
+	 * url：/v1.0/users/{userid}/tags
+	 * method:get
+	 * @param userid id
+	 * */
 	@GET
 	@Path("/{userid}/tags")
 	@Produces(MediaType.TEXT_PLAIN)
@@ -192,6 +229,13 @@ public class UsersImpl implements com.hdu.jersey.api.Users {
 		return ResponseBuilder.build(msg, list_tags);
 	}
 
+	/**
+	 * 为用户创建一个标签<br/>
+	 * url:/v1.0/users/{userid}/tags/{tagid}
+	 * method:post
+	 * @param userid 
+	 * @param tagid 标签id
+	 * */
 	@POST
 	@Path("/{userid}/tags/{tagid}")
 	@Produces(MediaType.TEXT_PLAIN)
@@ -232,6 +276,11 @@ public class UsersImpl implements com.hdu.jersey.api.Users {
 			return ResponseBuilder.build(msg, null);
 	}
 
+	/**
+	 * 获取用户的离线消息<br/>
+	 * url：/v1.0/users/{userid}/offLineMsgs<br/>
+	 * method:get
+	 * */
 	@Override
 	@GET
 	@Path("/{userid}/offlineMsgs")
@@ -254,6 +303,12 @@ public class UsersImpl implements com.hdu.jersey.api.Users {
 	}
 	
 	
+	/**
+	 * 群组聊天的实现，综合网页前端以及android端
+	 * url:/v1.0/users/{userid}/messages/push
+	 * Method:post
+	 * @param messages 群组消息类
+	 * */
 	@POST
 	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -296,6 +351,10 @@ public class UsersImpl implements com.hdu.jersey.api.Users {
 		
 	}
 	
+	/**
+	 * 获取群组离线消息<br/>
+	 * url:/v1.0/users/{userid}/groupmessages/{groupdid}
+	 * */
 	@GET
 	@Path("/{userid}/groupmessages/{groupid}")
 	@Produces(MediaType.TEXT_PLAIN)
@@ -318,7 +377,10 @@ public class UsersImpl implements com.hdu.jersey.api.Users {
 	
 	
 	/*-------------------------------------------------------groups-------------------------------------------------------------------------*/
-	
+	/**
+	 * 获取用户所在群组
+	 * Url：/v1.0/users/{userid}/group
+	 * */
 	@GET
 	@Path("/{userid}/group")
 	@Produces(MediaType.TEXT_PLAIN)

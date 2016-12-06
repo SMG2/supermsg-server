@@ -2,7 +2,7 @@ package com.hdu.jersey.util;
 
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
-/*
+/**
 BASE64的加密解密是双向的，可以求反解.
 BASE64Encoder和BASE64Decoder是非官方JDK实现类。虽然可以在JDK里能找到并使用，但是在API里查不到。
 JRE 中 sun 和 com.sun 开头包的类都是未被文档化的，他们属于 java, javax 类库的基础，其中的实现大多数与底层平台有关，

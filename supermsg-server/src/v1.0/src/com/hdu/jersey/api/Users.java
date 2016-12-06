@@ -2,6 +2,12 @@ package com.hdu.jersey.api;
 
 import com.hdu.jersey.model.UserCreateModel;
 
+/**
+ * @author zhuxin
+ * 
+ * 用于的所有接口，获取用户信息，注册等
+ * 
+ * */
 public interface Users {
 	
 	/**

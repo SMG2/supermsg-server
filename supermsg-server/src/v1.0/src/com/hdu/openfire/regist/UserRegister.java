@@ -7,8 +7,18 @@ import org.jivesoftware.smack.XMPPException;
 
 import com.hdu.openfire.conf.SMKProperties;
 
+/**
+ * @author zhuxin
+ * 在openfire中注册用户
+ */
 public class UserRegister {
 	
+	/**
+	 * 注册
+	 * @param id
+	 * @param pwd
+	 * @return
+	 */
 	public boolean regist(String id,String pwd){
 		ConnectionConfiguration config = new ConnectionConfiguration(SMKProperties.HOST, SMKProperties.PORT);
 		XMPPConnection connection = new XMPPConnection(config);

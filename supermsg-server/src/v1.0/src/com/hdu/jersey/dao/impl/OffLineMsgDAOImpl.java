@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import com.hdu.jersey.model.P2PMsg;
 import com.hdu.jersey.util.DBUtil;
 
+/**
+ * 离线消息DAO层实现
+ * */
 public class OffLineMsgDAOImpl {
 	
 	private static DBUtil dbutil = DBUtil.getInstance();

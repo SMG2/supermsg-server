@@ -5,6 +5,10 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
+/**
+ * @author zhuxin
+ *
+ */
 public class JedisPoolTool {
 	private static HostAndPort hostAndPort = new HostAndPort("120.27.49.173", 6380);
 	private static JedisPool pool = null;
@@ -20,12 +24,18 @@ public class JedisPoolTool {
 	}
 	
 
+	/**
+	 * 初始化连接池
+	 */
 	private void initPool(){
 		JedisPoolConfig config = new JedisPoolConfig();
 		pool = new JedisPool(config,hostAndPort.getHost(),hostAndPort.getPort(),2000,"zx349766");
 	}
 	
 
+	/**
+	 * @return 返回一个jedis对象
+	 */
 	public synchronized  Jedis getJedis(){
 		if(pool==null)
 			initPool();
@@ -34,6 +44,11 @@ public class JedisPoolTool {
 	}
 	
 
+	/**
+	 * 关闭jedis
+	 * 
+	 * @param jedis
+	 */
 	public  void closeJedis(Jedis jedis){
 		if(jedis!=null)
 			jedis.close();

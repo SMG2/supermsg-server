@@ -12,6 +12,10 @@ import com.hdu.jersey.dao.impl.sql.UserBaseInfoSql;
 import com.hdu.jersey.model.UserBaseInfo;
 import com.hdu.jersey.util.DBUtil;
 
+/**
+ * @author zhuxin
+ *用户基础信息接口实现
+ */
 public class UserBaseInfoDAOImpl implements UserBaseInfoDAO{
 	
 	DBUtil dbutil = DBUtil.getInstance();

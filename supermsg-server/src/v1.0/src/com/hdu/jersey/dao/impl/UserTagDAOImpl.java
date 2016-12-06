@@ -12,6 +12,11 @@ import com.hdu.jersey.model.Tag;
 import com.hdu.jersey.model.UserTag;
 import com.hdu.jersey.util.DBUtil;
 
+/**
+ * @author zhuxin
+ * 用户标签DAO实现
+ *
+ */
 public class UserTagDAOImpl implements UserTagDAO{
 
 	private static DBUtil dbutil = DBUtil.getInstance();

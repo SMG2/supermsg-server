@@ -10,6 +10,10 @@ import com.hdu.jersey.dao.impl.sql.TagSql;
 import com.hdu.jersey.model.Tag;
 import com.hdu.jersey.util.DBUtil;
 
+/**
+ * @author zhuxin
+ *
+ */
 public class TagDAOImpl implements TagDAO{
 
 	private static  DBUtil dbutil = DBUtil.getInstance();

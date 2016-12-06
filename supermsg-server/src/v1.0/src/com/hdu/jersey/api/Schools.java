@@ -3,6 +3,10 @@ package com.hdu.jersey.api;
 import com.hdu.jersey.model.SchoolInfo;
 
 
+/**
+ * 学校接口，学校信息的CRUD
+ * 
+ * */
 public interface Schools {
 
 	/**

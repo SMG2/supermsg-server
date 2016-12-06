@@ -22,6 +22,10 @@ import com.hdu.jersey.model.UserTag;
 import com.hdu.jersey.response.BaseResponseMsg;
 import com.hdu.jersey.response.ResponseBuilder;
 
+
+/**
+ * 标签接口，标签的CRUD
+ * */
 @Path("/tags")
 public class TagsImpl implements Tags{
 
@@ -30,6 +34,10 @@ public class TagsImpl implements Tags{
 	
 	BaseResponseMsg msg = null;
 	
+	/**
+	 * 获取所有的标签信息
+	 * url：/v1.0/tags
+	 * */
 	@GET
 	@Path("/{tagid}/users")
 	@Produces(MediaType.TEXT_PLAIN)
@@ -50,6 +58,13 @@ public class TagsImpl implements Tags{
 		return ResponseBuilder.build(msg, list);
 	}
 
+	
+	/**
+	 * 创建一个标签<br/>
+	 * url：/v1.0/tags/
+	 * method:post
+	 * 
+	 * */
 	@POST
 	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -63,8 +78,11 @@ public class TagsImpl implements Tags{
  		return ResponseBuilder.build(msg, null);
 	}
 	
-	
-
+	/*
+	 * 删除一个标签<br/>
+	 * url：v1.0/tags/<br/>
+	 * method:delete
+	 * **/
 	@Deprecated
 	@DELETE
 	@Path("/{tagid}")

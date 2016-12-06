@@ -20,10 +20,20 @@ import com.hdu.jersey.model.SchoolInfo;
 import com.hdu.jersey.response.BaseResponseMsg;
 import com.hdu.jersey.response.ResponseBuilder;
 
+/**
+ * schools接口的实现类，调用/shools
+ * 
+ * */
 @Path("/schools")
 public class SchoolImpl implements Schools {
 	SchoolInfoDAOImpl dao = new SchoolInfoDAOImpl();
 	BaseResponseMsg msg = null;	
+	
+	/**
+	 * 获取所有学校信息
+	 * url: /v1.0/schools/
+	 * 
+	 * */
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Override
@@ -39,6 +49,12 @@ public class SchoolImpl implements Schools {
 		return ResponseBuilder.build(msg, list_info);
 	}
 
+	
+	/**
+	 * 通过id获取特定的school信息
+	 * url：/v1.0/schools/{schoolid}
+	 * 
+	 * */
 	@GET
 	@Path("/{school_num}")
 	@Produces(MediaType.TEXT_PLAIN)
@@ -55,6 +71,13 @@ public class SchoolImpl implements Schools {
 		return ResponseBuilder.build(msg, info);
 	}
 
+	
+	/**
+	 * 创建一个学习
+	 * url：/v1.0/schools
+	 * method:post
+	 * 
+	 * */
 	@POST
 	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -89,7 +112,9 @@ public class SchoolImpl implements Schools {
 		return ResponseBuilder.build(msg, null);
 	}
 
-	
+	/**
+	 * 检测msg是否为空，是否已经有值
+	 * */
 	private void check(){
 		if(this.msg != null){
 			this.msg = null;

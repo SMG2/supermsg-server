@@ -1,20 +1,56 @@
 package com.hdu.jersey.error;
 
 public final class ResponseCode {
+	/**
+	 * 标准返回，无错误
+	 */
 	public final static int OK = 200;
+	/**
+	 * 未授权
+	 */
 	public final static int UNAUTHORIZED = 401;
+	/**
+	 * 资源未找到
+	 */
 	public final static int RESOURCE_NOT_FOUND = 404;
 	
+	/**
+	 * 用户id未空
+	 */
 	public final static int USER_ID_NULL = 400;
+	/**
+	 * 删除错误
+	 */
 	public final static int USER_DELETE_ERROR = 405;
+	/**
+	 * 用于已经存在
+	 */
 	public final static int USER_EXIST= 402;
+	/**
+	 * 用户无法找到
+	 */
 	public final static int USER_NOT_EXIST= 406;
+	/**
+	 * 用户标签未空
+	 */
 	public final static int USER_TAG_NOT_SET= 407;
+	/**
+	 * 设置错误
+	 */
 	public final static int FAIL_TOADD_TAG_FOR_USER= 4081;
+	/**
+	 * 删除错误
+	 */
 	public final static int FAIL_DELETE_TAG_FOR_USER= 4082;
 	
+	/**
+	 * 失败注册到openfire
+	 */
 	public final static int FAIL_TO_REGIST_IN_OPENGIRE = 409;
 	
+	/**
+	 * 无学校
+	 */
 	public final static int NO_SCHOOLS_FOUND = 410;
 	public final static int NO_SCHOOL_EXIST_WITH_GIVEN_NUM = 411;
 	public final static int SCHOOL_CREATE_FAILD = 412;
