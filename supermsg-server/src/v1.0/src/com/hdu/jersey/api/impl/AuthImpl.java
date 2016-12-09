@@ -11,14 +11,18 @@ import javax.ws.rs.core.MediaType;
 
 import com.hdu.goeasy.Config;
 import com.hdu.jersey.api.Auth;
+import com.hdu.jersey.dao.impl.UserLoginAuthDAOImpl;
 import com.hdu.jersey.error.ErrorMsg;
 import com.hdu.jersey.error.ResponseCode;
 import com.hdu.jersey.model.UserActionModel;
+import com.hdu.jersey.model.UseridAndPwd;
+import com.hdu.jersey.model.WebLoginAuth;
 import com.hdu.jersey.response.BaseResponseMsg;
 import com.hdu.jersey.response.ResponseBuilder;
 import com.hdu.jersey.util.BASE64;
 import com.hdu.jersey.util.MD5;
 import com.hdu.redis.jedis.RedisTool;
+import com.sun.crypto.provider.RSACipher;
 
 import io.goeasy.GoEasy;
 import net.sf.json.JSONObject;
@@ -45,7 +49,8 @@ public class AuthImpl implements Auth{
 			@BeanParam UserActionModel model,
 			@PathParam("qrcode") String qrcode) {
 		
-		if(!"login".equals(model.getAction()))
+		
+		if(!"login".equals(model.getAction()) || "reject".equals(model.getAction()))
 			return ResponseBuilder.build(new BaseResponseMsg(ResponseCode.UNDEFINED_ACTION, ErrorMsg.UNDEFINED_ACTION), null);
 		
 		
@@ -108,7 +113,7 @@ public class AuthImpl implements Auth{
 //		object.accumulate("qrcode",qrcodeMsg);
 		String channel  =  getChannel(timestamp);
 		object.accumulate("channel", channel);
-		object.accumulate("url", "http:120.27.49.173:8080/v1.0/auth/qrcode/"+qrcodeMsg);
+		object.accumulate("url", "http://120.27.49.173:8080/v1.0/auth/qrcode/"+qrcodeMsg);
 		
 		//存储qrcode信息以及管道信息到redis中
 		new Thread(
@@ -142,6 +147,23 @@ public class AuthImpl implements Auth{
 	 * */
 	private static String getChannel(String timestamp){
 		return MD5.getResult(timestamp);
+	}
+	
+
+	/**
+	 * @return 返回是否授权
+	 */
+	@POST
+	@Path("/account/{userid}")
+	public String authLoginByAcount(@PathParam("userid") String userid,@BeanParam WebLoginAuth model){
+		//获取密码
+		String pwd = model.getPwd();
+		UseridAndPwd queryModel = new UseridAndPwd(userid, pwd);
+		boolean re = new UserLoginAuthDAOImpl().authUser(queryModel);
+		if(re == true)
+			return ResponseBuilder.build(new BaseResponseMsg(200, ""), null);
+		else 
+			return ResponseBuilder.build(new BaseResponseMsg(ResponseCode.UNAUTHORIZED, ErrorMsg.UNAUTHORIZED), null);
 	}
 	
 	

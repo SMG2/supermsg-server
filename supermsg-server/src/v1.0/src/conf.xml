@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 引入配置文件db。properties -->
+	<properties resource="conf/db.properties"/>
+	<!-- 取别名 -->
+	<typeAliases>
+		<typeAlias type="com.hdu.jersey.model.WebLoginAuth" alias="_WebLogin"/>
+		<!-- 引入包名，这样快一点，到时候调用直接写类名就行了 -->
+		<package name="com.hdu.jersey.model"/>
+	</typeAliases>
+
+  <environments default="development">
+    <environment id="development">
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+      	<property name="url" value="${url}"/>
+		<property name="driver" value="${driver}"/>
+		<property name="username" value="${userName}"/>
+		<property name="password" value="${password}"/>
+      </dataSource>
+    </environment>
+  </environments>
+  <mappers>
+    <mapper resource="com/hdu/jersey/model/UseridAndPwdMapper.xml"/>
+  </mappers>
+</configuration>

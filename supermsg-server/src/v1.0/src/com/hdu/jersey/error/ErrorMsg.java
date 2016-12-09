@@ -31,4 +31,6 @@ public final class ErrorMsg {
 	
 	public final static String NO_KEY_FOUND_IN_REDIS = "no keys found in database with the key you given.";
 	
+	public final static String UNAUTHORIZED = "UNAUTHORIZED.";
+	
 }
