@@ -4,10 +4,11 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hdu.jersey.model">
   <select id="authUser" resultMap="userResultMap">
-    select id,pwd from user_baseinfo where id = #{id}
+   select b.id , b.pwd , d.phone from user_baseinfo as b,user_detailinfo as d where b.id = d.id and d.phone = #{phoneNum}
   </select>
   <resultMap type="com.hdu.jersey.model.UseridAndPwd" id="userResultMap">
   	<id column="id" property="userid" />
   	<result column="pwd" property="password"/>
+  	<result column="phone" property="phoneNum"/>
   </resultMap>
 </mapper>

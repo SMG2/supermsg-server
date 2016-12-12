@@ -32,6 +32,9 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
     	if(requestContext.getUriInfo().getPath().contains("/auth/qrcode"))
     		return ;
     	
+    	if(requestContext.getUriInfo().getPath().contains("/auth/account"))
+    		return ;
+    	
     	MultivaluedMap<String, String> headers = requestContext.getHeaders();
     	if(!(headers.containsKey("Nonce")
     			&&headers.containsKey("Timestamp")

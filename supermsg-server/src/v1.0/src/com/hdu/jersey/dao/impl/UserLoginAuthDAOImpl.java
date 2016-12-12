@@ -18,23 +18,22 @@ public class UserLoginAuthDAOImpl {
 	/**
 	 * @param model 用户model
 	 * 
-	 * @return 返回true 或者FALSE
+	 * @return 返回null或者对象
 	 * */
-	public boolean authUser(UseridAndPwd model){
-		boolean rel = false;
+	public UseridAndPwd authUser(UseridAndPwd model){
 		if("".equals(model.getPassword()) || model.getPassword() == null)
-			return rel;
+			return null;
 		
 		SqlSession session = MybatisUtils.getSession();
-		UseridAndPwd rs = session.selectOne(STATEMENT_USERLOGIN_AUTH, model.getUserid());
+		UseridAndPwd rs = session.selectOne(STATEMENT_USERLOGIN_AUTH, model.getPhoneNum());
 		
 		if(rs != null && model.getPassword().equals(rs.getPassword()))
-			rel = true;
-		return rel;
+			return rs;
+		return null;
 		
 	}
 	
 	public static void main(String[] args) {
-		System.out.println(new UserLoginAuthDAOImpl().authUser(new UseridAndPwd("103361408412","4444")));
+		System.out.println(new UserLoginAuthDAOImpl().authUser(new UseridAndPwd("17764591320","4444")).toString());
 	}
 }

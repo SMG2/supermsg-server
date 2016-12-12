@@ -167,7 +167,7 @@ public class UserDetailInfoDAOImpl implements UserDetailInfoDAO{
 			psta.setString(1, groupid);
 			
 			rs = psta.executeQuery();
-			if(rs.next()){
+			while(rs.next()){
 				list.add(rs.getString("id"));
 			}
 			

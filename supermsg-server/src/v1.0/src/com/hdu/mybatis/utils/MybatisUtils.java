@@ -27,7 +27,7 @@ public class MybatisUtils {
 	public static void main(String[] args) {
 		SqlSession session = MybatisUtils.getSession();
 		String statement = "com.hdu.jersey.model.authUser";
-		UseridAndPwd model = session.selectOne(statement, "1033614108412");
+		UseridAndPwd model = session.selectOne(statement, "17764591353");
 		System.out.println(model.getPassword());
 	}
 }

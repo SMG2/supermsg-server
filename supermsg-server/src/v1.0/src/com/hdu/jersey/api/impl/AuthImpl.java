@@ -154,14 +154,17 @@ public class AuthImpl implements Auth{
 	 * @return 返回是否授权
 	 */
 	@POST
-	@Path("/account/{userid}")
-	public String authLoginByAcount(@PathParam("userid") String userid,@BeanParam WebLoginAuth model){
+	@Path("/account/{phone}")
+	public String authLoginByAcount(@PathParam("phone") String phone,@BeanParam WebLoginAuth model){
 		//获取密码
 		String pwd = model.getPwd();
-		UseridAndPwd queryModel = new UseridAndPwd(userid, pwd);
-		boolean re = new UserLoginAuthDAOImpl().authUser(queryModel);
-		if(re == true)
-			return ResponseBuilder.build(new BaseResponseMsg(200, ""), null);
+		UseridAndPwd queryModel = new UseridAndPwd(phone, pwd);
+		UseridAndPwd re = new UserLoginAuthDAOImpl().authUser(queryModel);
+		if(re != null){
+			JSONObject object = new JSONObject();
+			object.accumulate("userid", re.getUserid());
+			return ResponseBuilder.build(new BaseResponseMsg(200, ""), object);
+		}
 		else 
 			return ResponseBuilder.build(new BaseResponseMsg(ResponseCode.UNAUTHORIZED, ErrorMsg.UNAUTHORIZED), null);
 	}
