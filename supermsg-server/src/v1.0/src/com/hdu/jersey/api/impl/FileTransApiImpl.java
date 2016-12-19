@@ -40,4 +40,6 @@ public class FileTransApiImpl {
 		
 		return ResponseBuilder.build(new BaseResponseMsg(200, ""), object);
 	}
+	
+	
 }

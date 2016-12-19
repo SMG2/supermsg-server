@@ -1,11 +1,15 @@
 package com.hdu.jersey.filter;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
+
+import org.apache.commons.io.FileUtils;
 
 import com.hdu.jersey.error.ResponseCode;
 import com.hdu.jersey.response.BaseResponseMsg;
@@ -28,8 +32,18 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
     	if("/users".equals(requestContext.getUriInfo().getPath()) && requestContext.getMethod().equalsIgnoreCase("POST"))
     		return ;
     	
+//    	if(requestContext.hasEntity()){
+//    		InputStream is = requestContext.getEntityStream();
+//        	FileUtils.copyInputStreamToFile(is, new File("e://resources/he.jpg"));
+//    	}
+    	
+    	
     	//调用授权接口是跳过
     	if(requestContext.getUriInfo().getPath().contains("/auth/qrcode"))
+    		return ;
+    	
+    	//跳过上传图片文件接口
+    	if(requestContext.getUriInfo().getPath().contains("/images/upload"))
     		return ;
     	
     	if(requestContext.getUriInfo().getPath().contains("/auth/account"))

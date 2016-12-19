@@ -17,4 +17,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
     <servlet-name>jersey_rest</servlet-name>
     <url-pattern>/*</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>imageUpload</servlet-name>
+  	<servlet-class>com.hdu.file.servlet.ImageFileServlet</servlet-class>
+  </servlet>
+  <!-- 不用了，该接口 -->
+  <servlet-mapping>
+  	<servlet-name>imageUpload</servlet-name>
+  	<url-pattern>/images/upload</url-pattern>
+  </servlet-mapping>
 </web-app>
