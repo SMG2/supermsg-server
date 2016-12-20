@@ -113,7 +113,7 @@ public class ImageFileServlet extends HttpServlet {
         //修改文件访问权限
         File file = new File(ROOT_IMAGE_DIR,filename);
         file.setReadable(true, false);
-        pout.write(object.toString());
+        pout.write(combine(object));
         pout.close();
         
         
@@ -123,6 +123,14 @@ public class ImageFileServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * 返回拼接为html
+	 * @param object
+	 */
+	private static String combine(JSONObject object){
+		return "<script> window.name='"+object.toString()+"';</script>";
 	}
 	
 	private static void setResponse(JSONObject object,boolean isSuccess,String fn){
