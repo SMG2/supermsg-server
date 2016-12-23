@@ -25,5 +25,6 @@
   </environments>
   <mappers>
     <mapper resource="com/hdu/jersey/model/UseridAndPwdMapper.xml"/>
+    <mapper resource="com/hdu/jersey/model/PushHisModel.xml"/>
   </mappers>
 </configuration>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hdu.jersey.model">
+  <insert id="addPushHisModel" parameterType="com.hdu.jersey.model.PushHisModel">
+   insert into tb_push_his(pushId,userid,tags,isPushToAll,content,createtime,title) 
+   		values(#{pushId},#{userid},#{tags},#{isPushToAll},#{content},#{createTime},#{title})
+  </insert>
+  
+  <select id="queryAll" resultType="com.hdu.jersey.model.PushHisModel">
+  	select userid,tags,isPushToAll,content,title,createtime from tb_push_his 
+  </select>
+  
+  <resultMap type="com.hdu.jersey.model.PushHisModel" id="rsPushHisModel">
+  	<result property="userid" column="userid"/>
+  	<result property="tags" column="tags"/>
+  	<result property="createtime" column="createtime"/>
+  	<result property="content" column="content"/>
+  	<result property="title" column="title"/>
+  	<result property="isPushToAll" column="isPushToAll"  javaType="int" jdbcType="BIT"/>
+  	
+  </resultMap>
+</mapper>

@@ -1,5 +1,7 @@
 package com.hdu.jersey.api;
 
+import javax.ws.rs.core.HttpHeaders;
+
 import com.hdu.jersey.model.PusherModel;
 
 /**
@@ -11,11 +13,12 @@ public interface PusherAPI {
 	/**
 	 * 向所有的设备推送通知
 	 * */
-	public String pushAllDev(PusherModel model);
+	String pushAllDev(HttpHeaders hh, PusherModel model);
 	
 	/**
 	 * 向特定的标签用于推送通知
 	 * */
-	public String pushByTags(PusherModel model);
+	String pushByTags(HttpHeaders hh, PusherModel model);
+
 
 }
