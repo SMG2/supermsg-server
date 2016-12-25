@@ -1,15 +1,11 @@
 package com.hdu.jersey.filter;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
-
-import org.apache.commons.io.FileUtils;
 
 import com.hdu.jersey.error.ResponseCode;
 import com.hdu.jersey.response.BaseResponseMsg;

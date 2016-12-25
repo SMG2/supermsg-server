@@ -15,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.json.JSONObject;
 
+import com.hdu.file.FileRd;
 import com.hdu.jersey.api.PusherAPI;
 import com.hdu.jersey.dao.impl.PushHisDAOImpl;
 import com.hdu.jersey.error.ErrorMsg;
@@ -24,6 +25,7 @@ import com.hdu.jersey.model.PusherModel;
 import com.hdu.jersey.response.BaseResponseMsg;
 import com.hdu.jersey.response.ResponseBuilder;
 import com.hdu.pusher.api.Pusher;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 
 /**
  * @author F-zx
@@ -35,7 +37,8 @@ import com.hdu.pusher.api.Pusher;
 @Path("/push")
 public class PusherAPIImpl implements PusherAPI {
 	private PushHisDAOImpl daoImpl = new PushHisDAOImpl();
-
+	private final static String FILE_PREFIX = "/data/wwwroot/www.zlpix.top/resources/notice/";
+	
 	/**
 	 * 向所有的用户推送消息
 	 * 
@@ -92,6 +95,8 @@ public class PusherAPIImpl implements PusherAPI {
 				tag_list.add(tag);
 			}
 
+
+			object = Pusher.pushByTag(model.getTitle(), model.getContent(), tag_list);//推送
 			String userid = hh.getHeaderString("userid");
 			System.out.println("---------push to user by tags---------------"+userid);
 			//insert into database
@@ -103,18 +108,38 @@ public class PusherAPIImpl implements PusherAPI {
 				System.err.println("error in store push history logs.");
 			}
 			
-			object = Pusher.pushByTag(model.getTitle(), model.getContent(), tag_list);
 			msg = new BaseResponseMsg(200, "");
 		}
 		return ResponseBuilder.build(msg, object.toString());
 	}
 
+	/**
+	 * 文件集合
+	 * */
+	private String[] split;
+	private String fileName;
+	
 	@GET
 	@Path("/his")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String getAllPushHis(){
 		JSONObject object = new JSONObject();
 		List<PushHisModel> list = daoImpl.selectAll();
+		//遍历整个list更改里面的推送消息
+		for (PushHisModel model : list) {
+			String content = model.getContent();
+			if(content.contains("http://www.zlpix.top/resources/notice/")){
+				split = content.split("/");
+				//文件名字
+				fileName = FILE_PREFIX + split[split.length-1];
+				String n_content = FileRd.getFileContent(fileName);
+				if(n_content==null){
+					model.setContent("notice content not found!");
+				}
+				model.setContent(n_content);
+			}
+		}
+		
 		object.accumulate("pushLog", list);
 		return ResponseBuilder.build(new BaseResponseMsg(200, ""), object.toString());
 	}

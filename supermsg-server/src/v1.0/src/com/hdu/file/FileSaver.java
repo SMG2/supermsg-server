@@ -16,7 +16,7 @@ public class FileSaver {
 	
 	private final static String FILE_SUFFIX = ".html";
 //	private final static String FILE_SURFIX = "e://sources/notice/"; // /data/wwwroot/www.zlpix.top/resources/notice/
-	private final static String FILE_SURFIX = "/data/wwwroot/www.zlpix.top/resources/notice/";
+	private final static String FILE_PREFIX = "/data/wwwroot/www.zlpix.top/resources/notice/";
 	private static FileWriter fw = null;
 	
 	
@@ -27,7 +27,7 @@ public class FileSaver {
 	public static String save(String content){
 		long timestamp = System.currentTimeMillis();
 		
-		String fileName = FILE_SURFIX+String.valueOf(timestamp)+FILE_SUFFIX;
+		String fileName = FILE_PREFIX+String.valueOf(timestamp)+FILE_SUFFIX;
 		
 		File file = new File(fileName);
 		

@@ -22,7 +22,6 @@ import com.hdu.jersey.response.ResponseBuilder;
 import com.hdu.jersey.util.BASE64;
 import com.hdu.jersey.util.MD5;
 import com.hdu.redis.jedis.RedisTool;
-import com.sun.crypto.provider.RSACipher;
 
 import io.goeasy.GoEasy;
 import net.sf.json.JSONObject;
